@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Drones Collection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --accent: #3b82f6;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        .drone-card {
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
+        }
+
+        .drone-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .drone-card:hover .card-inner {
+            transform: rotateY(20deg);
+        }
+
+        .drone-image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            background: linear-gradient(145deg, #ffffff, #e2e8f0);
+        }
+
+        .drone-image {
+            transition: all 0.5s ease;
+            will-change: transform;
+        }
+
+        .drone-card:hover .drone-image {
+            transform: scale(1.05) rotate(-5deg);
+        }
+
+        .deal-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: #ef4444;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 2;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .spec-badge {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            height: 4px;
+            width: 50%;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .tab-active {
+            background-color: var(--primary);
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header Section -->
+        <div class="text-center mb-16">
+            <h2 class="section-title text-3xl sm:text-4xl font-bold text-gray-900 inline-block">Premium Drone Collection
+            </h2>
+            <p class="mt-4 max-w-2xl mx-auto text-gray-600">
+                Explore our cutting-edge drones with advanced features and performance
+            </p>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="flex justify-center mb-12">
+            <div class="inline-flex rounded-lg bg-gray-100 p-1">
+                <button onclick="filterDrones('all')"
+                    class="tab-item px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:bg-blue-100 tab-active"
+                    id="tab-all">
+                    All Drones
+                </button>
+                <button onclick="filterDrones('popular')"
+                    class="tab-item px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:bg-blue-100"
+                    id="tab-popular">
+                    Most Popular
+                </button>
+                <button onclick="filterDrones('deals')"
+                    class="tab-item px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:bg-blue-100"
+                    id="tab-deals">
+                    Special Deals
+                </button>
+                <button onclick="filterDrones('pro')"
+                    class="tab-item px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:bg-blue-100"
+                    id="tab-pro">
+                    Pro Series
+                </button>
+            </div>
+        </div>
+
+        <!-- Drones Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="drones-grid">
+            <!-- Drone Card 1 -->
+
+
+            
+            <div class="drone-card bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                data-category="popular deals">
+                <div class="card-inner">
+                    <div class="drone-image-container h-64 w-full p-6">
+                        <span class="deal-badge">Save 15%</span>
+                        <img
+                            src="https://m.media-amazon.com/images/S/aplus-media-library-service-media/e214cc68-fa67-4eba-a4a9-ea6722749ef5.__CR0,0,970,600_PT0_SX970_V1___.jpg">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-xl font-bold text-gray-900">SkyVision Pro X1</h3>
+                            <span class="text-gray-500 line-through">$899</span>
+                        </div>
+                        <div class="mt-1 flex justify-between">
+                            <span class="text-gray-500">Professional Grade</span>
+                            <span class="text-2xl font-bold text-blue-600">$764</span>
+                        </div>
+
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="spec-badge">4K 60fps</span>
+                            <span class="spec-badge">30min Flight</span>
+                            <span class="spec-badge">3-axis Gimbal</span>
+                        </div>
+
+                        <div class="mt-6 flex justify-between items-center">
+                            <a href="{% url 'product_detail' product_id=1 %}" class="btn-primary hover:shadow-lg">
+                                Add to Cart
+                            </a>
+                            <button class="text-blue-600 font-medium hover:underline">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Drone Card 2 -->
+            <div class="drone-card bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                data-category="pro">
+                <div class="card-inner">
+                    <div class="drone-image-container h-64 w-full p-6">
+                        <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOIYUC6oDhB5as3P8KIayFM1hOxOJtYGVOVA&s">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-xl font-bold text-gray-900">Cinematic Pro Mavic 8</h3>
+                            <span class="text-gray-500"></span>
+                        </div>
+                        <div class="mt-1 flex justify-between">
+                            <span class="text-gray-500">Cinematic Edition</span>
+                            <span class="text-2xl font-bold text-blue-600">$1,299</span>
+                        </div>
+
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="spec-badge">6K HDR</span>
+                            <span class="spec-badge">45min Flight</span>
+                            <span class="spec-badge">360° Obstacle</span>
+                        </div>
+
+                        <div class="mt-6 flex justify-between items-center">
+                            <button class="btn-primary hover:shadow-lg">
+                                Add to Cart
+                            </button>
+                            <button class="text-blue-600 font-medium hover:underline">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Drone Card 3 -->
+            <div class="drone-card bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                data-category="popular">
+                <div class="card-inner">
+                    <div class="drone-image-container h-64 w-full p-6">
+                        <img src="https://m.media-amazon.com/images/I/81-5eTY8tNL._AC_SL1500_.jpg">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-xl font-bold text-gray-900">Travel Mini 3</h3>
+                            <span class="text-gray-500"></span>
+                        </div>
+                        <div class="mt-1 flex justify-between">
+                            <span class="text-gray-500">Portable Design</span>
+                            <span class="text-2xl font-bold text-blue-600">$549</span>
+                        </div>
+
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="spec-badge">2.7K Video</span>
+                            <span class="spec-badge">20min Flight</span>
+                            <span class="spec-badge">Under 250g</span>
+                        </div>
+
+                        <div class="mt-6 flex justify-between items-center">
+                            <button class="btn-primary hover:shadow-lg">
+                                Add to Cart
+                            </button>
+                            <button class="text-blue-600 font-medium hover:underline">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Drone Card 4 -->
+            <div class="drone-card bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                data-category="deals">
+                <div class="card-inner">
+                    <div class="drone-image-container h-64 w-full p-6">
+                        <span class="deal-badge">Bundle Deal</span>
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5f810e94-6177-4ed6-b6a5-3b7938078d79.png"
+                            alt="AeroPhoto Bundle with 3 batteries and case"
+                            class="drone-image w-full h-full object-contain">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-xl font-bold text-gray-900">AeroPhoto Bundle</h3>
+                            <span class="text-gray-500 line-through">$1,199</span>
+                        </div>
+                        <div class="mt-1 flex justify-between">
+                            <span class="text-gray-500">Pro Bundle</span>
+                            <span class="text-2xl font-bold text-blue-600">$999</span>
+                        </div>
+
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="spec-badge">4K Camera</span>
+                            <span class="spec-badge">3 Batteries</span>
+                            <span class="spec-badge">Carry Case</span>
+                        </div>
+
+                        <div class="mt-6 flex justify-between items-center">
+                            <button class="btn-primary hover:shadow-lg">
+                                Add to Cart
+                            </button>
+                            <button class="text-blue-600 font-medium hover:underline">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Drone Card 5 -->
+            <div class="drone-card bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                data-category="pro">
+                <div class="card-inner">
+                    <div class="drone-image-container h-64 w-full p-6">
+                        <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR13VrET-OjYahNKVJlngAwMaPfHc2Tj4iOmQ&s">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-xl font-bold text-gray-900">Inspectron 500</h3>
+                            <span class="text-gray-500"></span>
+                        </div>
+                        <div class="mt-1 flex justify-between">
+                            <span class="text-gray-500">Industrial Use</span>
+                            <span class="text-2xl font-bold text-blue-600">$2,499</span>
+                        </div>
+
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="spec-badge">Thermal Cam</span>
+                            <span class="spec-badge">60min Flight</span>
+                            <span class="spec-badge">IP54 Rated</span>
+                        </div>
+
+                        <div class="mt-6 flex justify-between items-center">
+                            <button class="btn-primary hover:shadow-lg">
+                                Add to Cart
+                            </button>
+                            <button class="text-blue-600 font-medium hover:underline">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Drone Card 6 -->
+            <div class="drone-card bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                data-category="popular">
+                <div class="card-inner">
+                    <div class="drone-image-container h-64 w-full p-6">
+                        <span class="deal-badge">Best Seller</span>
+                        <img src="https://droneclonexperts.com/cdn/shop/files/Falcon-Main_3pcs2.jpg?v=1728757896">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-xl font-bold text-gray-900">Starter Drone X</h3>
+                            <span class="text-gray-500"></span>
+                        </div>
+                        <div class="mt-1 flex justify-between">
+                            <span class="text-gray-500">Beginner Friendly</span>
+                            <span class="text-2xl font-bold text-blue-600">$299</span>
+                        </div>
+
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="spec-badge">1080p HD</span>
+                            <span class="spec-badge">15min Flight</span>
+                            <span class="spec-badge">Safety Guards</span>
+                        </div>
+
+                        <div class="mt-6 flex justify-between items-center">
+                            <button class="btn-primary hover:shadow-lg">
+                                Add to Cart
+                            </button>
+                            <button class="text-blue-600 font-medium hover:underline">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Special Offer Banner -->
+        <div
+            class="mt-16 bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-8 text-white overflow-hidden relative">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-blue-700 opacity-20 rounded-full -mr-16 -mt-16"></div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-500 opacity-20 rounded-full -ml-16 -mb-16"></div>
+
+            <div class="relative z-10">
+                <h3 class="text-2xl sm:text-3xl font-bold mb-4">Limited Time Offer!</h3>
+                <p class="mb-6 max-w-2xl">
+                    Get <span class="font-bold">free professional drone photography training</span> (valued at $499)
+                    with the purchase of any Pro Series drone.
+                </p>
+                <button
+                    class="bg-white text-blue-600 hover:bg-gray-100 hover:text-blue-700 font-bold py-3 px-8 rounded-lg transition-all duration-300 transform hover:-translate-y-1 shadow-lg">
+                    Shop Pro Drones
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function filterDrones(category) {
+            const cards = document.querySelectorAll('.drone-card');
+            const tabItems = document.querySelectorAll('.tab-item');
+
+            // Update active tab
+            tabItems.forEach(item => item.classList.remove('tab-active'));
+            document.getElementById(`tab-${category}`).classList.add('tab-active');
+
+            // Filter cards
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category').includes(category)) {
+                    card.style.display = 'block';
+
+                    // Add animation for appearing cards
+                    card.style.animation = 'none';
+                    setTimeout(() => {
+                        card.style.animation = 'fadeIn 0.5s ease-out';
+                    }, 10);
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Keyframe animation for fade-in effect
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+
+</html>

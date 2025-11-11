@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Prestige Tote</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            overflow-x: hidden;
+        }
+        
+        .checkout-container {
+            perspective: 1000px;
+        }
+        
+        .bag-card {
+            transform-style: preserve-3d;
+            transition: all 0.5s ease-in-out;
+        }
+        
+        .bag-card:hover {
+            transform: rotateY(10deg) rotateX(5deg) translateY(-5px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .payment-card {
+            transition: all 0.3s ease;
+        }
+        
+        .payment-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .payment-card.selected {
+            transform: translateY(-5px);
+            border-color: #4f46e5;
+            background-color: #f5f6ff;
+        }
+        
+        .floating-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotateY(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotateY(10deg);
+            }
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background-color: #e5e7eb;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-bar-fill {
+            height: 100%;
+            background-color: #4f46e5;
+            transition: width 0.5s ease;
+        }
+        
+        .btn-animate {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .btn-animate:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-animate:active {
+            transform: translateY(0) scale(0.99);
+        }
+        
+        .bg-checkout {
+            background: radial-gradient(circle at 10% 20%, rgba(227, 227, 255, 0.8) 0%, rgba(255, 255, 255, 1) 90%);
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body class="bg-checkout">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Progress Bar -->
+         
+        <div class="flex items-center mb-10">
+            <div class="w-full">
+                <div class="flex justify-between mb-2 text-sm">
+                    <span class="text-gray-600">Cart</span>
+                    <span class="text-gray-600">Payment</span>
+                    <span class="text-gray-400">Confirmation</span>
+
+
+
+                     <!-- Cart Button with Quantity Badge -->
+                    <button onclick="showCartDetails()" class="p-2 relative rounded-full hover:bg-gray-100">
+                        <!-- Cart Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>
+
+                        <!-- Quantity Badge -->
+                        <span id="cart-count"
+                            class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">
+                            0
+                        </span>
+                    </button>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress-bar-fill w-1/2"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Product Section -->
+            <div class="lg:w-2/3">
+                <h1 class="text-3xl font-bold mb-6 text-gray-800">Checkout</h1>
+                
+                <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8 checkout-container">
+                    <div class="bag-card p-6 flex flex-col md:flex-row gap-6">
+                        <div class="md:w-1/2 relative">
+                            <div class="overflow-hidden rounded-xl floating-animation">
+                                <img 
+                                    src="https://img.drz.lazcdn.com/static/pk/p/d0d17cbefba6c3d2920a788832a14b3d.jpg_960x960q80.jpg_.webp" 
+                                    alt="Prestige Tote handbag shown in modern setting with silver accents and premium leather texture" 
+                                    class="w-full h-auto object-cover transition-transform duration-500 hover:scale-105"
+                                />
+                            </div>
+                            <div class="mt-4 flex gap-2">
+                                <div class="w-16 h-16 rounded-lg overflow-hidden cursor-pointer border-2 border-indigo-500">
+                                    <img src="https://img.drz.lazcdn.com/static/pk/p/d0d17cbefba6c3d2920a788832a14b3d.jpg_960x960q80.jpg_.webp" alt="Prestige Tote side view" class="w-full h-full object-cover" />
+                                </div>
+                                <div class="w-16 h-16 rounded-lg overflow-hidden cursor-pointer hover:border-2 hover:border-gray-300">
+                                    <img src="https://img.drz.lazcdn.com/static/pk/p/d0d17cbefba6c3d2920a788832a14b3d.jpg_960x960q80.jpg_.webp" alt="Prestige Tote interior showing compartments" class="w-full h-full object-cover" />
+                                </div>
+                                <div class="w-16 h-16 rounded-lg overflow-hidden cursor-pointer hover:border-2 hover:border-gray-300">
+                                    <img src="https://img.drz.lazcdn.com/static/pk/p/d0d17cbefba6c3d2920a788832a14b3d.jpg_960x960q80.jpg_.webp" alt="Prestige Tote with accessories" class="w-full h-full object-cover" />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="md:w-1/2">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Prestige Tote</h2>
+                            <span class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full mb-4">Ladies Handbag</span>
+                            
+                            <div class="mb-6">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="text-2xl font-bold text-gray-800">$89.99</span>
+                                    <span class="text-base text-gray-500 line-through">$129.99</span>
+                                    <span class="text-base font-medium text-indigo-600">30% OFF</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-semibold text-gray-700 mb-2">Color</h3>
+                                <div class="flex gap-2">
+                                    <div class="w-8 h-8 rounded-full bg-indigo-600 border-2 border-indigo-700 cursor-pointer"></div>
+                                    <div class="w-8 h-8 rounded-full bg-gray-600 hover:border-2 hover:border-gray-800 cursor-pointer"></div>
+                                    <div class="w-8 h-8 rounded-full bg-rose-600 hover:border-2 hover:border-rose-800 cursor-pointer"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-semibold text-gray-700 mb-2">Size</h3>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 border border-gray-300 rounded-full hover:bg-gray-100">Small</button>
+                                    <button class="px-3 py-1 border border-indigo-500 bg-indigo-50 text-indigo-700 rounded-full">Medium</button>
+                                    <button class="px-3 py-1 border border-gray-300 rounded-full hover:bg-gray-100">Large</button>
+                                </div>
+                            </div>
+                            
+                          <div class="mb-6">
+    <h3 class="font-semibold text-gray-700 mb-2">Quantity</h3>
+    <div class="flex items-center gap-4">
+        <button onclick="decreaseQuantity()" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300">-</button>
+        <span id="quantity" class="text-gray-700">1</span>
+        <button onclick="increaseQuantity()" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300">+</button>
+    </div>
+</div>
+
+<!-- Color Selector -->
+<div class="mb-6">
+    <h3 class="font-semibold text-gray-700 mb-2">Select Color</h3>
+    <select id="colorSelect" onchange="showSelectedColor()" class="border border-gray-300 rounded px-3 py-1">
+        <option value="">Choose a color</option>
+        <option value="Red">Red</option>
+        <option value="Blue">Blue</option>
+        <option value="Green">Green</option>
+    </select>
+    <p class="mt-2 text-gray-700">Selected Color: <span id="selectedColor">None</span></p>
+</div>
+
+<script>
+    let quantity = 1;
+
+    function increaseQuantity() {
+        quantity++;
+        document.getElementById("quantity").innerText = quantity;
+    }
+
+    function decreaseQuantity() {
+        if (quantity > 1) {
+            quantity--;
+            document.getElementById("quantity").innerText = quantity;
+        }
+    }
+
+    function showSelectedColor() {
+        const selectedColor = document.getElementById("colorSelect").value;
+        document.getElementById("selectedColor").innerText = selectedColor || "None";
+    }
+</script>
+
+                            
+                            <div class="mb-6">
+                                <h3 class="font-semibold text-gray-700 mb-2">Description</h3>
+                                <p class="text-gray-600">
+                                    The Prestige Tote is crafted from premium leather with silver-tone hardware. Featuring adjustable straps, multiple interior compartments, and a sleek modern design that complements any outfit. Perfect for work or weekend adventures.
+                                </p>
+                            </div>
+                            
+                            <div class="flex gap-2">
+                                <button class="btn-animate px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-medium flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                    </svg>
+                                    Save
+                                </button>
+                                <button class="btn-animate px-6 py-3 bg-indigo-600 text-white rounded-lg font-medium flex-1 flex items-center justify-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4z" />
+                                    </svg>
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">Order Summary</h2>
+                        
+                        <div class="border-b border-gray-200 pb-4 mb-4">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-600">Item Price</span>
+                                <span class="text-gray-800">$89.99</span>
+                            </div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-600">Discount</span>
+                                <span class="text-indigo-600">-$40.00</span>
+                            </div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-600">Shipping</span>
+                                <span class="text-gray-800">Free</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between text-lg font-semibold">
+                            <span class="text-gray-700">Total</span>
+                            <span class="text-gray-900">$89.99</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Payment Section -->
+            <div class="lg:w-1/3">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden sticky top-8">
+                    <div class="p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-6">Payment Details</h2>
+                        
+                        <div class="mb-6">
+                            <h3 class="font-medium text-gray-700 mb-3">Payment Method</h3>
+                            <div class="grid gap-3">
+                                <div class="payment-card border rounded-lg p-3 cursor-pointer selected">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-6 bg-indigo-100 rounded flex items-center justify-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                                            </svg>
+                                        </div>
+                                        <span class="font-medium">Credit/Debit Card</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="payment-card border rounded-lg p-3 cursor-pointer">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-6 bg-gray-100 rounded flex items-center justify-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                                            </svg>
+                                        </div>
+                                        <span class="font-medium">Jazz Cash/ Easypaisa</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="payment-card border rounded-lg p-3 cursor-pointer">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-6 bg-gray-100 rounded flex items-center justify-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                                            </svg>
+                                        </div>
+                                        <span class="font-medium">Cash on Delivery</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-medium mb-2">Card Number</label>
+                            <div class="relative">
+                                <input type="text" placeholder="1234 5678 9012 3456" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-indigo-500 focus:outline-none">
+                                <div class="absolute right-3 top-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Expiry Date</label>
+                                <input type="text" placeholder="MM/YY" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-indigo-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">CVV</label>
+                                <input type="text" placeholder="123" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-indigo-500 focus:outline-none">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-medium mb-2">Cardholder Name</label>
+                            <input type="text" placeholder="John Smith" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-indigo-500 focus:outline-none">
+                        </div>
+                        
+                        <button class="btn-animate w-full py-4 bg-gradient-to-r from-indigo-600 to-indigo-800 text-white font-bold rounded-lg shadow-md hover:shadow-lg transform transition-transform">
+                            Pay $89.99
+                        </button>
+                        
+                        <div class="mt-4 text-center text-sm text-gray-500">
+                            <p>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Select payment method functionality
+            const paymentCards = document.querySelectorAll('.payment-card');
+            paymentCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    paymentCards.forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Quantity buttons functionality
+            const quantityDisplay = document.querySelector('.quantity span');
+            const decreaseBtn = document.querySelector('.quantity button:first-child');
+            const increaseBtn = document.querySelector('.quantity button:last-child');
+            
+            if (quantityDisplay && decreaseBtn && increaseBtn) {
+                let quantity = 1;
+                
+                decreaseBtn.addEventListener('click', function() {
+                    if (quantity > 1) {
+                        quantity--;
+                        quantityDisplay.textContent = quantity;
+                    }
+                });
+                
+                increaseBtn.addEventListener('click', function() {
+                    if (quantity < 10) {
+                        quantity++;
+                        quantityDisplay.textContent = quantity;
+                    }
+                });
+            }
+            
+            // 3D hover effect for product card
+            const productCard = document.querySelector('.bag-card');
+            if (productCard) {
+                productCard.addEventListener('mousemove', (e) => {
+                    const x = e.clientX - productCard.getBoundingClientRect().left;
+                    const y = e.clientY - productCard.getBoundingClientRect().top;
+                    
+                    const centerX = productCard.offsetWidth / 2;
+                    const centerY = productCard.offsetHeight / 2;
+                    
+                    const rotateY = 10 * (x - centerX) / centerX;
+                    const rotateX = -5 * (y - centerY) / centerY;
+                    
+                    productCard.style.transform = `
+                        rotateY(${rotateY}deg)
+                        rotateX(${rotateX}deg)
+                        translateY(-5px)
+                    `;
+                });
+                
+                productCard.addEventListener('mouseleave', () => {
+                    productCard.style.transform = 'rotateY(0) rotateX(0) translateY(0)';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

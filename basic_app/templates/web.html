@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus 3D E-Commerce</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background: #f8f9fa;
+        }
+
+        .hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .card-3d {
+            transition: transform 0.5s ease;
+            transform-style: preserve-3d;
+        }
+
+        .card-3d:hover {
+            transform: rotateY(15deg) rotateX(10deg) translateY(-10px);
+        }
+
+        .parallax-item {
+            transition: transform 0.3s ease-out;
+        }
+
+        .shine-effect {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shine-effect::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s;
+        }
+
+        .shine-effect:hover::after {
+            left: 100%;
+        }
+
+        /* Loading animation */
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .loading-dot {
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        .loading-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loading-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Loading screen -->
+    <div id="loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
+        <div class="flex space-x-2">
+            <div class="loading-dot w-3 h-3 bg-amber-500 rounded-full"></div>
+            <div class="loading-dot w-3 h-3 bg-amber-500 rounded-full"></div>
+            <div class="loading-dot w-3 h-3 bg-amber-500 rounded-full"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-40 bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="text-xl font-bold text-amber-600">NEXUS</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-center space-x-8">
+                        <a href="#" class="text-gray-700 hover:text-amber-600 transition">Home</a>
+                        <div class="relative group">
+                            <a href="#" class="text-gray-700 hover:text-amber-600 transition flex items-center">
+                                <span>Shop</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </a>
+                            <div
+                                class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden group-hover:block z-50">
+                                <a href="#"
+                                    class="block px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600">All
+                                    Products</a>
+                                <a href="{% url 'audio' %}"
+                                    class="block px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600">Audio</a>
+                                <a href="{% url 'wearables' %}"
+                                    class="block px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600">Wearables</a>
+                                <a href="{% url 'drones' %}"
+                                    class="block px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600">Drones</a>
+                                <a href="{% url 'accessories' %}"
+                                    class="block px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600">Accessories</a>
+                            </div>
+                        </div>
+                        <a href="{% url 'about' %}" class="text-gray-700 hover:text-amber-600 transition">About</a>
+                        <a href="{% url 'contact' %}" class="text-gray-700 hover:text-amber-600 transition">Contact</a>
+                        <a href="{% url 'shop' %}">
+                            <button
+                                class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-full transition transform hover:scale-105">
+                                Shop Now
+                            </button>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="p-2 rounded-full hover:bg-gray-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </button>
+                    <!-- Cart Button with Quantity Badge -->
+                    <button onclick="showCartDetails()" class="p-2 relative rounded-full hover:bg-gray-100">
+                        <!-- Cart Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>
+
+                        <!-- Quantity Badge -->
+                        <span id="cart-count"
+                            class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">
+                            0
+                        </span>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="hero-canvas" id="canvas-container"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <h1 class="text-5xl md:text-6xl font-bold text-gray-800 leading-tight">
+                        Experience <span class="text-amber-600">3D Shopping</span> Like Never Before
+                    </h1>
+                    <p class="text-lg text-gray-600 max-w-lg">
+                        Discover products in immersive 3D. Rotate, zoom, and interact with every detail before you buy.
+                    </p>
+                    <div class="flex space-x-4 pt-4">
+                        <a href="{% url 'head_p' %}"
+                            class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-full font-medium transition transform hover:scale-105 inline-block">
+                            Explore Collection
+                        </a>
+
+                        <button
+                            class="border-2 border-gray-800 hover:bg-gray-800 hover:text-white text-gray-800 px-8 py-3 rounded-full font-medium transition transform hover:scale-105">
+                            Learn More
+                        </button>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div
+                        class="bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg rounded-2xl overflow-hidden shadow-xl p-8 card-3d">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/8e76c0a8-6888-4ebc-b2f0-b56c44f486a5.png"
+                            alt="Modern wireless headphones with sleek black design and metallic accents floating in 3D space"
+                            class="w-full h-auto object-contain" />
+                        <div class="text-center mt-6">
+                            <h3 class="text-xl font-semibold text-gray-800">Nexus Pro Headphones</h3>
+                            <p class="text-amber-600 font-medium">$199.99</p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="absolute -left-12 -bottom-12 w-32 h-32 bg-gradient-to-tr from-amber-200 to-amber-400 rounded-full filter blur-xl opacity-70 animate-pulse">
+                    </div>
+                    <div
+                        class="absolute -right-12 -top-12 w-24 h-24 bg-gradient-to-tr from-blue-200 to-blue-400 rounded-full filter blur-xl opacity-70 animate-pulse">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+            <div class="p-2 rounded-full bg-white bg-opacity-50 backdrop-filter backdrop-blur-md animate-bounce">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="py-16 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-10 text-center">Shop by Category</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                <div
+                    class="bg-white rounded-xl shadow-md p-6 text-center transition-all hover:shadow-xl hover:-translate-y-2">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-amber-100 rounded-full flex items-center justify-center">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/6ab997b7-cefb-49d5-8400-d85c56922f8a.png"
+                            alt="Audio" class="w-10 h-10">
+                    </div>
+
+                    <a href="{% url 'audio' %}">Audio</Audio></a>
+                    <p class="text-sm text-gray-600">50+ Products</p>
+                </div>
+
+                <div
+                    class="bg-white rounded-xl shadow-md p-6 text-center transition-all hover:shadow-xl hover:-translate-y-2">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full flex items-center justify-center">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/32971cec-ae31-4c9c-97b2-02b4ee7ca718.png"
+                            alt="Wearables" class="w-10 h-10">
+                    </div>
+
+                    <a href="{% url 'eyewear' %}">Eyewear</a>
+                    <p class="text-sm text-gray-600">30+ Products</p>
+                </div>
+
+                <div
+                    class="bg-white rounded-xl shadow-md p-6 text-center transition-all hover:shadow-xl hover:-translate-y-2">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-purple-100 rounded-full flex items-center justify-center">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/834b6f22-9c3f-4be4-858a-b112aab5abe5.png"
+                            alt="Drones" class="w-10 h-10">
+                    </div>
+
+                    <a href="{% url 'drones' %}">Drones</a>
+                    <p class="text-sm text-gray-600">25+ Products</p>
+                </div>
+
+                <div
+                    class="bg-white rounded-xl shadow-md p-6 text-center transition-all hover:shadow-xl hover:-translate-y-2">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/631489cc-c5bd-4d9e-b9a5-b3c5392fb6bf.png"
+                            alt="Accessories" class="w-10 h-10">
+                    </div>
+
+                    <a href="{% url 'accessories' %}">Accessories</a>
+                    <p class="text-sm text-gray-600">80+ Products</p>
+                </div>
+
+                <div
+                    class="bg-white rounded-xl shadow-md p-6 text-center transition-all hover:shadow-xl hover:-translate-y-2">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-red-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-2">More</h3>
+                    <p class="text-sm text-gray-600">100+ Products</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Featured Products</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Our carefully curated selection of premium products with interactive 3D previews
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Product 1 -->
+                <!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Strike RGB Keyboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+<!-- ✅ Product Card with Django POST Form -->
+<div class="bg-gray-50 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 shine-effect max-w-sm mx-auto">
+    <div class="relative h-64 overflow-hidden">
+        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/6ab997b7-cefb-49d5-8400-d85c56922f8a.png"
+            alt="High-end mechanical gaming keyboard with customizable RGB lighting rotating slowly in 3D space"
+            class="w-full h-full object-contain p-6 transition-transform duration-300 hover:scale-110" />
+        <span
+            class="absolute top-4 right-4 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full">NEW</span>
+    </div>
+    <div class="p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-1">Strike RGB Keyboard</h3>
+        <p class="text-gray-600 text-sm mb-3">Customizable mechanical switches</p>
+        <div class="flex justify-between items-center mb-3">
+            <span class="text-amber-600 font-bold">$149.99</span>
+        </div>
+
+        <!-- ✅ Add to Cart Form -->
+        <form action="{% url 'web' %}" method="POST" class="flex justify-between items-center gap-4">
+            {% csrf_token %}
+            <input type="hidden" name="product_name" value="Strike RGB Keyboard">
+            <input type="hidden" name="phone" value="00000000000">
+            <input type="hidden" name="email" value="guest@example.com">
+            <input type="hidden" name="payment" value="Cash on Delivery">
+
+            <button type="submit" class="bg-amber-500 text-white px-4 py-2 rounded hover:bg-amber-600 transition">
+                Add to Cart
+            </button>
+
+            <a href="{% url 'card_page' %}" class="text-blue-600 text-sm underline hover:text-blue-800">
+                Go to Cart
+                <span id="cartQuantity"
+                    class="inline-block bg-red-600 text-white text-xs px-2 py-0.5 rounded-full ml-1">0</span>
+            </a>
+        </form>
+    </div>
+</div>
+
+
+
+                <!-- Product 2 -->
+              <!-- Horizon Smartwatch Product Card -->
+<div class="bg-gray-50 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 shine-effect max-w-sm mx-auto">
+    <div class="relative h-64 overflow-hidden">
+        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/32971cec-ae31-4c9c-97b2-02b4ee7ca718.png"
+            alt="Smartwatch with sleek circular display and leather band rotating in 3D to show all angles"
+            class="w-full h-full object-contain p-6 transition-transform duration-300 hover:scale-110" />
+    </div>
+
+    <div class="p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-1">Horizon Smartwatch</h3>
+        <p class="text-gray-600 text-sm mb-3">Health and fitness companion</p>
+
+        <!-- Price + Plus Icon -->
+        <div class="flex justify-between items-center mb-3">
+            <span class="text-amber-600 font-bold">$229.99</span>
+            <button onclick="addToCart()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 4v16m8-8H4" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Add to Cart Button + Go to Cart Link -->
+        <div class="flex justify-between items-center">
+            <button onclick="addToCart()" class="bg-amber-500 text-white px-4 py-2 rounded hover:bg-amber-600 transition">
+                Add to Cart
+            </button>
+            <a href="{% url 'card_page'%}" class="text-blue-600 text-sm underline hover:text-blue-800">
+                Go to Cart <span id="cart-count" class="inline-block bg-red-600 text-white text-xs px-2 py-0.5 rounded-full ml-1 hidden">0</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+              <!-- Product 3 – Aero 4K Drone -->
+<div class="bg-gray-50 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 shine-effect max-w-sm mx-auto">
+    <div class="relative h-64 overflow-hidden">
+        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/834b6f22-9c3f-4be4-858a-b112aab5abe5.png"
+            alt="Compact drone with 4K camera and foldable arms hovering and rotating in 3D space"
+            class="w-full h-full object-contain p-6 transition-transform duration-300 hover:scale-110" />
+        <span class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">BESTSELLER</span>
+    </div>
+
+    <div class="p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-1">Aero 4K Drone</h3>
+        <p class="text-gray-600 text-sm mb-3">Professional aerial photography</p>
+
+        <!-- Price + Plus Icon -->
+        <div class="flex justify-between items-center mb-3">
+            <span class="text-amber-600 font-bold">$599.99</span>
+            <button onclick="addToCart()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 4v16m8-8H4" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Add to Cart Button + Go to Cart -->
+        <div class="flex justify-between items-center">
+            <button onclick="addToCart()" class="bg-amber-500 text-white px-4 py-2 rounded hover:bg-amber-600 transition">
+                Add to Cart
+            </button>
+            <a href="{% url 'card_page' %}" class="text-blue-600 text-sm underline hover:text-blue-800">
+                Go to Cart <span id="cart-count" class="inline-block bg-red-600 text-white text-xs px-2 py-0.5 rounded-full ml-1 hidden">0</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+                <!-- Product 4 -->
+               <!-- Product Card: Bounce Wireless Earbuds -->
+<div class="bg-gray-50 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 shine-effect max-w-sm mx-auto">
+    <div class="relative h-64 overflow-hidden">
+        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/631489cc-c5bd-4d9e-b9a5-b3c5392fb6bf.png"
+            alt="Wireless earbuds in charging case with glowing LED indicators rotating in 3D space"
+            class="w-full h-full object-contain p-6 transition-transform duration-300 hover:scale-110" />
+    </div>
+
+    <div class="p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-1">Bounce Wireless Earbuds</h3>
+        <p class="text-gray-600 text-sm mb-3">Active noise cancellation</p>
+
+        <!-- Price and + Icon -->
+        <div class="flex justify-between items-center mb-3">
+            <span class="text-amber-600 font-bold">$129.99</span>
+            <button onclick="addToCart()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 4v16m8-8H4" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Add to Cart Button + Link -->
+        <div class="flex justify-between items-center">
+            <button onclick="addToCart()" class="bg-amber-500 text-white px-4 py-2 rounded hover:bg-amber-600 transition">
+                Add to Cart
+            </button>
+            <a href="{% url 'card_page'%}" class="text-blue-600 text-sm underline hover:text-blue-800">
+                Go to Cart <span id="cart-count" class="inline-block bg-red-600 text-white text-xs px-2 py-0.5 rounded-full ml-1 hidden">0</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+            <div class="text-center mt-16">
+                <a href="{% url 'all_products' %}">
+                    <button
+                        class="border-2 border-gray-800 hover:bg-gray-800 hover:text-white text-gray-800 px-8 py-3 rounded-full font-medium transition transform hover:scale-105">
+                        View All Products
+                    </button>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 3D Preview Section -->
+    <section class="py-20 bg-gradient-to-br from-gray-50 to-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="relative">
+                    <div class="w-full h-96 bg-white rounded-2xl shadow-xl" id="product-preview"></div>
+                    <div
+                        class="absolute -bottom-6 -right-6 w-24 h-24 bg-amber-400 rounded-full filter blur-xl opacity-50">
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Interactive <span class="text-amber-600">3D
+                            Product</span> Experience</h2>
+                    <p class="text-gray-600">
+                        Explore products in unprecedented detail with our 360° 3D viewer. Rotate, zoom, and interact
+                        with every angle before making your purchase decision.
+                    </p>
+                    <div class="grid grid-cols-3 gap-4 pt-4">
+                        <div class="bg-white bg-opacity-70 backdrop-filter backdrop-blur-sm p-4 rounded-xl shadow-sm">
+                            <div class="text-amber-500 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold text-gray-800 mb-1">360° Viewing</h3>
+                            <p class="text-xs text-gray-600">Inspect every angle</p>
+                        </div>
+                        <div class="bg-white bg-opacity-70 backdrop-filter backdrop-blur-sm p-4 rounded-xl shadow-sm">
+                            <div class="text-amber-500 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold text-gray-800 mb-1">Detailed Inspection</h3>
+                            <p class="text-xs text-gray-600">See fine textures</p>
+                        </div>
+                        <div class="bg-white bg-opacity-70 backdrop-filter backdrop-blur-sm p-4 rounded-xl shadow-sm">
+                            <div class="text-amber-500 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold text-gray-800 mb-1">AR Preview</h3>
+                            <p class="text-xs text-gray-600">View in your space</p>
+                        </div>
+                    </div>
+                    <button
+                        class="mt-6 bg-gray-800 hover:bg-gray-900 text-white px-8 py-3 rounded-full font-medium transition transform hover:scale-105 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                        Try Live Demo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="py-20 bg-gray-800 text-white relative overflow-hidden">
+        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/2d12da0d-ed76-44ac-89f4-932226445eee.png"
+            alt="Abstract futuristic grid pattern with glowing amber and blue lines in 3D space"
+            class="absolute inset-0 w-full h-full object-cover opacity-10" />
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Join Our Community</h2>
+                <p class="text-gray-300 max-w-2xl mx-auto">
+                    Subscribe to get exclusive access to new product releases, special offers, and 3D previews before
+                    anyone else.
+                </p>
+            </div>
+
+            <div class="max-w-lg mx-auto">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <input type="email" placeholder="Your email address"
+                        class="flex-grow px-4 py-3 rounded-full bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    <button
+                        class="bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-full font-medium transition transform hover:scale-105 whitespace-nowrap">
+                        Subscribe Now
+                    </button>
+                </div>
+                <p class="text-gray-400 text-sm mt-2 text-center">
+                    We respect your privacy. Unsubscribe at any time.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4">Shop</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-amber-400 transition">All Products</a></li>
+                        <li><a href="#" class="hover:text-amber-400 transition">New Arrivals</a></li>
+                        <li><a href="#" class="hover:text-amber-400 transition">Featured</a></li>
+                        <li><a href="#" class="hover:text-amber-400 transition">Bestsellers</a></li>
+                        <li><a href="#" class="hover:text-amber-400 transition">Deals</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-amber-400 transition">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-amber-400 transition">FAQs</a></li>
+                        <li><a href="#" class="hover:text-amber-400 transition">Shipping</a></li>
+                        <li><a href="#" class="hover:text-amber-400 transition">Returns</a></li>
+                        <li><a href="#" class="hover:text-amber-400 transition">Warranty</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-amber-400 transition">About Us</a></li>
+                        <li><a href="#" class="hover:text-amber-400 transition">Careers</a></li>
+                        <li><a href="#" class="hover:text-amber-400 transition">Blog</a></li>
+                        <li><a href="#" class="hover:text-amber-400 transition">Press</a></li>
+                        <li><a href="#" class="hover:text-amber-400 transition">Impact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4">Connect</h3>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#"
+                            class="bg-gray-700 hover:bg-gray-600 w-10 h-10 rounded-full flex items-center justify-center transition">
+                            <span class="sr-only">Facebook</span>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                    d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                        <a href="#"
+                            class="bg-gray-700 hover:bg-gray-600 w-10 h-10 rounded-full flex items-center justify-center transition">
+                            <span class="sr-only">Instagram</span>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                    d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                        <a href="#"
+                            class="bg-gray-700 hover:bg-gray-600 w-10 h-10 rounded-full flex items-center justify-center transition">
+                            <span class="sr-only">Twitter</span>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path
+                                    d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84">
+                                </path>
+                            </svg>
+                        </a>
+                        <a href="#"
+                            class="bg-gray-700 hover:bg-gray-600 w-10 h-10 rounded-full flex items-center justify-center transition">
+                            <span class="sr-only">YouTube</span>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                    d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 0 1-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 0 1-1.768-1.768C2 15.255 2 12 2 12s0-3.255.417-4.814a2.507 2.507 0 0 1 1.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418ZM15.194 12 10 15V9l5.194 3Z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <h4 class="text-white text-sm font-semibold mb-2">Payment Methods</h4>
+                    <div class="flex space-x-2">
+                        <div class="bg-gray-700 p-2 rounded">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M9.315 7.584C12.195 5.139 15.803 4 19.43 4c.483 0 .964.037 1.44.111a.5.5 0 0 1 .388.592c-.119.666-.28 1.324-.483 1.968a.5.5 0 0 1-.69.298 13.592 13.592 0 0 0-1.867-.64c-.433-.112-.875-.2-1.32-.27-.396-.063-.75-.096-1.142-.096-2.412 0-4.741.848-6.543 2.384a.5.5 0 0 1-.706-.033l-.742-.742a.5.5 0 0 1 .033-.706zM4 19.43c0-.483.037-.964.111-1.44a.5.5 0 0 1 .592-.388c.666.119 1.324.28 1.968.483a.5.5 0 0 1 .298.69 13.594 13.594 0 0 0-.64 1.867c-.112.433-.2.875-.27 1.32-.063.396-.096.75-.096 1.142 0 2.412.848 4.741 2.384 6.543a.5.5 0 0 1-.033.706l-.742.742a.5.5 0 0 1-.706-.033C5.14 21.804 4 18.196 4 19.43z">
+                                </path>
+                                <path
+                                    d="M7.585 9.315c-2.444 2.88-3.584 6.488-3.584 10.115 0 .483.037.964.111 1.44a.5.5 0 0 0 .592.388c.666-.119 1.324-.28 1.968-.483a.5.5 0 0 0 .298-.69 13.592 13.592 0 0 1-.64-1.867c-.112-.433-.2-.875-.27-1.32-.063-.396-.096-.75-.096-1.142 0-2.412.848-4.741 2.384-6.543a.5.5 0 0 0-.033-.706l-.742-.742a.5.5 0 0 0-.706.033z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="bg-gray-700 p-2 rounded">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 12.385v-.001c1.113 0 2.029-.913 2.029-2.028 0-1.115-.916-2.029-2.029-2.029-1.114 0-2.028.914-2.028 2.029 0 1.115.914 2.028 2.028 2.028zm0 0">
+                                </path>
+                                <path
+                                    d="M19.715 6.873c-.021.099-.136 1.257-.35 2.655-.027.178-.086.352-.176.513l-.016.029c-.051.096-1.569 3.379-4.708 5.13-.072.04-.152.064-.234.07-.037.003-.073.005-.109.005-.19 0-.371-.073-.505-.208l-.076-.077-.075-.076c-.136-.136-.21-.317-.21-.508 0-.061.01-.12.03-.177.318-.87 1.285-2.897 1.396-3.198a.617.617 0 0 0-.302-.753c-.14-.08-.312-.072-.45.019-3.171 1.82-4.887 3.473-5.023 3.626l-.016.019v-.002c-.117.131-.306.17-.465.1-.127-.057-.216-.176-.236-.315-.902-6.394-1.919-7.954-2.022-8.144l-.018-.03a.61.61 0 0 0-.206-.222.622.622 0 0 0-.288-.082H4.623c-.344 0-.623.279-.623.623v.035a3.71 3.71 0 0 0 2.592 3.56c.797.282 1.137.694 1.147 1.314.017 1.321.096 4.032.17 5.652.056 1.23.107 2.314.145 2.95.019.312.28.553.594.553h3.18a.624.624 0 0 0 .623-.623v-.076c0-.03-.003-.06-.01-.088-.062-.255-1.369-5.751 1.828-7.74.084-.052.175-.078.267-.078a.618.618 0 0 1 .23.045l.019.009c.799.374 3.017 1.47 3.351 1.635l.013.007.018.008.016.008a.6.6 0 0 0 .437.055.614.614 0 0 0 .446-.5c.194-1.046.772-4.396.804-4.628l.004-.024a.622.622 0 0 0-.204-.557.617.617 0 0 0-.516-.167h-.035c-1.002.1-5.197 1.11-6.232 1.357a.624.624 0 0 1-.734-.477l-.003-.015a.623.623 0 0 1 .471-.733l.024-.005c1.078-.258 5.612-1.33 6.721-1.44h.024c.043-.004.085-.006.128-.006a.628.628 0 0 1 .616.507v.008z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="bg-gray-700 p-2 rounded">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M15.429 14.18c-.252.614-.618 1.158-1.098 1.632-.48.475-1.023.84-1.637 1.098-.614.258-1.257.387-1.93.387-.674 0-1.317-.129-1.93-.387a4.199 4.199 0 0 1-1.638-1.098 4.193 4.193 0 0 1-1.098-1.632A4.261 4.261 0 0 1 6 13.143c0-.673.129-1.316.387-1.93.258-.613.624-1.157 1.098-1.631a4.194 4.194 0 0 1 1.637-1.098A4.262 4.262 0 0 1 10.764 8c.673 0 1.316.129 1.93.387.614.258 1.157.623 1.637 1.098.48.474.846 1.018 1.098 1.632.252.613.379 1.256.379 1.929 0 .674-.127 1.317-.379 1.93zm1.428-7.977v2.922h1.7V4H5.142v5.125h1.7V6.203h6.857v1.351h1.713V6.203h1.445z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="bg-gray-700 p-2 rounded">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M5.554 18.89v-6.411H3.39V18.89h2.164zm1.112-7.293a1.267 1.267 0 01-1.271-1.268c0-.712.542-1.271 1.306-1.271.764 0 1.27.559 1.271 1.271a1.27 1.27 0 01-1.306 1.268zm10.228 7.293h-2.164v-3.539c0-.868-.312-1.467-1.093-1.467-.597 0-.955.402-1.11.797-.056.14-.069.327-.069.518v3.691H8.897v-6.411h2.164v.907c.284-.44.786-1.061 1.907-1.061 1.38 0 2.426.904 2.426 2.846v3.718h-.002zm7.269-9.826a1.429 1.429 0 01-1.429 1.429 1.43 1.43 0 01-1.429-1.429 1.43 1.43 0 011.429-1.429 1.429 1.429 0 011.429 1.429zM18.214 18.89v-6.411h-2.161v6.411h2.161z">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <div class="text-sm text-gray-400 mb-4 md:mb-0">
+                    © 2023 Nexus E-Commerce. All rights reserved.
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white text-sm transition">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm transition">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm transition">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+    // Cart array to store added items (you can later store this in localStorage or sessionStorage)
+    let cartItems = [];
+
+    // Function to add item to cart
+    function addToCart(item) {
+        cartItems.push(item);
+        updateCartBadge();
+    }
+
+    // Update badge quantity
+    function updateCartBadge() {
+        const badge = document.getElementById('cart-count');
+        badge.textContent = cartItems.length;
+        badge.classList.remove('hidden');
+    }
+
+    // Show cart details (popup/modal/console/log)
+    function showCartDetails() {
+        if (cartItems.length === 0) {
+            alert("Cart is empty.");
+        } else {
+            let message = "Cart Items:\n";
+            cartItems.forEach((item, index) => {
+                message += `${index + 1}. ${item}\n`;
+            });
+            alert(message);
+        }
+    }
+</script>
+
+
+    <script>
+        
+        // Initialize Three.js canvas after page load
+        document.addEventListener('DOMContentLoaded', function () {
+            // Hide loading screen
+            setTimeout(() => {
+                document.getElementById('loading').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loading').style.display = 'none';
+                }, 500);
+            }, 1500);
+
+            // Initialize 3D scene in hero section
+            const canvasContainer = document.getElementById('canvas-container');
+
+            if (canvasContainer) {
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                canvasContainer.appendChild(renderer.domElement);
+
+                // Create floating particles
+                const particlesGeometry = new THREE.BufferGeometry();
+                const particleCount = 500;
+
+                const posArray = new Float32Array(particleCount * 3);
+                for (let i = 0; i < particleCount * 3; i++) {
+                    posArray[i] = (Math.random() - 0.5) * 10;
+                }
+
+                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+                const particlesMaterial = new THREE.PointsMaterial({
+                    size: 0.02,
+                    color: 0xFFFFFF,
+                    transparent: true,
+                    opacity: 0.8
+                });
+
+                const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+                scene.add(particlesMesh);
+
+                camera.position.z = 3;
+
+                // Animation loop
+                function animate() {
+                    requestAnimationFrame(animate);
+
+                    particlesMesh.rotation.x += 0.0005;
+                    particlesMesh.rotation.y += 0.0005;
+
+                    renderer.render(scene, camera);
+                }
+
+                animate();
+
+                // Handle window resize
+                window.addEventListener('resize', () => {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                });
+            }
+
+            // Initialize 3D product preview
+            const productPreview = document.getElementById('product-preview');
+
+            if (productPreview) {
+                const width = productPreview.clientWidth;
+                const height = productPreview.clientHeight;
+
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer({ antialias: true });
+
+                renderer.setSize(width, height);
+                renderer.setClearColor(0xf8f9fa, 1);
+                productPreview.appendChild(renderer.domElement);
+
+                // Add lights
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+                scene.add(ambientLight);
+
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                directionalLight.position.set(5, 5, 5);
+                scene.add(directionalLight);
+
+                // Create a product model (simplified)
+                const geometry = new THREE.BoxGeometry(1, 1, 1);
+                const material = new THREE.MeshPhongMaterial({
+                    color: 0xf5f5f5,
+                    specular: 0x111111,
+                    shininess: 30
+                });
+
+                const cube = new THREE.Mesh(geometry, material);
+                scene.add(cube);
+
+                camera.position.z = 2;
+
+                // Add rotation controls
+                let isDragging = false;
+                let previousMousePosition = {
+                    x: 0,
+                    y: 0
+                };
+
+                productPreview.addEventListener('mousedown', () => {
+                    isDragging = true;
+                });
+
+                productPreview.addEventListener('mouseup', () => {
+                    isDragging = false;
+                });
+
+                productPreview.addEventListener('mousemove', (e) => {
+                    if (isDragging) {
+                        const deltaMove = {
+                            x: e.offsetX - previousMousePosition.x,
+                            y: e.offsetY - previousMousePosition.y
+                        };
+
+                        cube.rotation.y += deltaMove.x * 0.01;
+                        cube.rotation.x += deltaMove.y * 0.01;
+
+                        previousMousePosition = {
+                            x: e.offsetX,
+                            y: e.offsetY
+                        };
+                    }
+                });
+
+                productPreview.addEventListener('mouseleave', () => {
+                    isDragging = false;
+                });
+
+                productPreview.addEventListener('mouseenter', (e) => {
+                    previousMousePosition = {
+                        x: e.offsetX,
+                        y: e.offsetY
+                    };
+                });
+
+                // Animation loop
+                function animate() {
+                    requestAnimationFrame(animate);
+
+                    if (!isDragging) {
+                        cube.rotation.y += 0.005;
+                    }
+
+                    renderer.render(scene, camera);
+                }
+
+                animate();
+
+                // Handle window resize
+                window.addEventListener('resize', () => {
+                    camera.aspect = productPreview.clientWidth / productPreview.clientHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(productPreview.clientWidth, productPreview.clientHeight);
+                });
+            }
+
+            // GSAP animations
+            gsap.from('.hero-section h1', {
+                duration: 1.2,
+                y: 50,
+                opacity: 0,
+                ease: 'power3.out'
+            });
+
+            gsap.from('.hero-section p', {
+                duration: 1.2,
+                y: 50,
+                opacity: 0,
+                delay: 0.3,
+                ease: 'power3.out'
+            });
+
+            gsap.from('.hero-section button', {
+                duration: 1,
+                y: 50,
+                opacity: 0,
+                delay: 0.6,
+                stagger: 0.1,
+                ease: 'power3.out'
+            });
+
+            gsap.from('.card-3d', {
+                duration: 1.2,
+                y: 50,
+                opacity: 0,
+                delay: 0.9,
+                ease: 'power3.out'
+            });
+
+            // Scroll animations
+            gsap.utils.toArray('.parallax-item').forEach(item => {
+                gsap.from(item, {
+                    scrollTrigger: {
+                        trigger: item,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: true
+                    },
+                    y: 100,
+                    opacity: 0
+                });
+            });
+
+            // Hover animations
+            document.querySelectorAll('.shine-effect').forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    gsap.to(item, {
+                        duration: 0.3,
+                        scale: 1.02,
+                        ease: 'power2.out'
+                    });
+                });
+
+                item.addEventListener('mouseleave', () => {
+                    gsap.to(item, {
+                        duration: 0.3,
+                        scale: 1,
+                        ease: 'power2.out'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

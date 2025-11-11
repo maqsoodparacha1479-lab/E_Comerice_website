@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wearable Tech Collection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.11.4/dist/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            overflow-x: hidden;
+        }
+        
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .canvas-container {
+            width: 100%;
+            height: 280px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .deal-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 10;
+            background: linear-gradient(135deg, #f72585, #7209b7);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .section-title {
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #4361ee, #3f37c9);
+            border-radius: 2px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(135deg, #4cc9f0, #4361ee);
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .feature-badge {
+            background: linear-gradient(135deg, #f72585, #7209b7);
+        }
+        
+        .product-info {
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .product-card:hover .product-info {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto py-12 px-4">
+        <div class="text-center mb-16">
+            <h1 class="text-4xl font-bold text-gray-900 section-title inline-block pb-2">Smart Wearables Collection</h1>
+            <p class="text-lg text-gray-600 mt-4 max-w-2xl mx-auto">Cutting-edge wearable technology designed to enhance your lifestyle</p>
+        </div>
+
+        <!-- Featured Products Section -->
+        <div class="mb-20">
+            <h2 class="text-2xl font-bold mb-8 text-gray-800">Featured Devices</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Product 1 -->
+                <div class="product-card p-4 hover:shadow-lg">
+                    <div class="deal-tag">25% OFF</div>
+                    <div class="canvas-container floating" id="product1">
+                        <!-- 3D Model will be rendered here -->
+                    </div>
+                    <div class="product-info">
+                        <h3 class="text-xl font-semibold text-gray-900 mt-4">Smart Fitness Band Pro</h3>
+                        <div class="flex items-center mt-2">
+                            <span class="text-gray-500 line-through mr-2">$199.99</span>
+                            <span class="text-lg font-bold text-gray-900">$149.99</span>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm">Track your workouts, sleep patterns, and daily activities with precision.</p>
+                        <button class="cta-button w-full py-2 text-white font-medium rounded-lg mt-4">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card p-4 hover:shadow-lg">
+                    <div class="canvas-container floating" id="product2">
+                        <!-- 3D Model will be rendered here -->
+                    </div>
+                    <div class="product-info">
+                        <h3 class="text-xl font-semibold text-gray-900 mt-4">Premium Smart Watch</h3>
+                        <div class="flex items-center mt-2">
+                            <span class="text-lg font-bold text-gray-900">$349.99</span>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm">Stay connected with LTE, ECG monitoring, and customizable watch faces.</p>
+                        <button class="cta-button w-full py-2 text-white font-medium rounded-lg mt-4">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card p-4 hover:shadow-lg">
+                    <div class="deal-tag">NEW</div>
+                    <div class="canvas-container floating" id="product3">
+                        <!-- 3D Model will be rendered here -->
+                    </div>
+                    <div class="product-info">
+                        <h3 class="text-xl font-semibold text-gray-900 mt-4">Wireless Earbuds X2</h3>
+                        <div class="flex items-center mt-2">
+                            <span class="text-gray-500 line-through mr-2">$179.99</span>
+                            <span class="text-lg font-bold text-gray-900">$129.99</span>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm">Premium sound quality with active noise cancellation and 30-hour battery.</p>
+                        <button class="cta-button w-full py-2 text-white font-medium rounded-lg mt-4">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- All Products Section -->
+        <div class="mb-20">
+            <h2 class="text-2xl font-bold mb-8 text-gray-800">All Wearables</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Product 4 -->
+                <div class="product-card p-4 hover:shadow-lg">
+                    <div class="canvas-container" id="product4">
+                        <!-- 3D Model will be rendered here -->
+                    </div>
+                    <div class="pt-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Health Monitor Ring</h3>
+                        <div class="flex items-center mt-1">
+                            <span class="text-lg font-bold text-gray-900">$129.99</span>
+                        </div>
+                        <div class="mt-2">
+                            <span class="feature-badge text-xs text-white px-2 py-1 rounded-full inline-block">Sleep Tracking</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="product-card p-4 hover:shadow-lg">
+                    <div class="canvas-container" id="product5">
+                        <!-- 3D Model will be rendered here -->
+                    </div>
+                    <div class="pt-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Smart Glasses V3</h3>
+                        <div class="flex items-center mt-1">
+                            <span class="text-lg font-bold text-gray-900">$499.99</span>
+                        </div>
+                        <div class="mt-2">
+                            <span class="feature-badge text-xs text-white px-2 py-1 rounded-full inline-block">AR Display</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="product-card p-4 hover:shadow-lg">
+                    <div class="deal-tag">BESTSELLER</div>
+                    <div class="canvas-container" id="product6">
+                        <!-- 3D Model will be rendered here -->
+                    </div>
+                    <div class="pt-4">
+                        <h3 class="text-lg font-semibold text-gray-900">GPS Running Watch</h3>
+                        <div class="flex items-center mt-1">
+                            <span class="text-gray-500 line-through mr-2">$259.99</span>
+                            <span class="text-lg font-bold text-gray-900">$199.99</span>
+                        </div>
+                        <div class="mt-2">
+                            <span class="feature-badge text-xs text-white px-2 py-1 rounded-full inline-block">Waterproof</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 7 -->
+                <div class="product-card p-4 hover:shadow-lg">
+                    <div class="canvas-container" id="product7">
+                        <!-- 3D Model will be rendered here -->
+                    </div>
+                    <div class="pt-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Wireless Neckband</h3>
+                        <div class="flex items-center mt-1">
+                            <span class="text-lg font-bold text-gray-900">$89.99</span>
+                        </div>
+                        <div class="mt-2">
+                            <span class="feature-badge text-xs text-white px-2 py-1 rounded-full inline-block">30hr Playback</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Special Offers Banner -->
+        <div class="bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl p-6 text-white mb-20 relative overflow-hidden">
+            <div class="relative z-10">
+                <h2 class="text-2xl md:text-3xl font-bold mb-2">Summer Tech Sale</h2>
+                <p class="mb-4 max-w-lg">Up to 30% off on selected wearables. Limited time offer!</p>
+                <button class="bg-white text-purple-600 px-6 py-2 rounded-lg font-medium hover:bg-opacity-90 transition">Shop Now</button>
+            </div>
+            <div class="absolute right-0 bottom-0 opacity-20">
+                <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M100 200C155.228 200 200 155.228 200 100C200 44.7715 155.228 0 100 0C44.7715 0 0 44.7715 0 100C0 155.228 44.7715 200 100 200ZM134 150C134 172.091 116.091 190 94 190C71.9086 190 54 172.091 54 150C54 127.909 71.9086 110 94 110C116.091 110 134 127.909 134 150Z" fill="white"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Newsletter Section -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg mb-20">
+            <div class="text-center max-w-2xl mx-auto">
+                <h2 class="text-2xl font-bold text-gray-900 mb-3">Stay Updated on New Arrivals</h2>
+                <p class="text-gray-600 mb-6">Subscribe to our newsletter for exclusive deals and product launches.</p>
+                <div class="flex flex-col sm:flex-row gap-2 justify-center">
+                    <input type="email" placeholder="Your email address" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 flex-grow max-w-md">
+                    <button class="cta-button px-6 py-2 rounded-lg font-medium">Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Three.js scenes for all product containers
+        document.addEventListener('DOMContentLoaded', function() {
+            // Product configurations
+            const products = [
+                { id: 'product1', color: '#4361ee', shape: 'band' },
+                { id: 'product2', color: '#3f37c9', shape: 'watch' },
+                { id: 'product3', color: '#f72585', shape: 'earbuds' },
+                { id: 'product4', color: '#4895ef', shape: 'ring' },
+                { id: 'product5', color: '#4cc9f0', shape: 'glasses' },
+                { id: 'product6', color: '#7209b7', shape: 'watch' },
+                { id: 'product7', color: '#560bad', shape: 'neckband' }
+            ];
+
+            // Initialize scenes
+            const scenes = [];
+            
+            products.forEach(product => {
+                const container = document.getElementById(product.id);
+                const width = container.clientWidth;
+                const height = container.clientHeight;
+
+                // Create scene
+                const scene = new THREE.Scene();
+                scene.background = new THREE.Color(0xf8f9fa);
+                
+                // Camera
+                const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+                camera.position.z = 5;
+                
+                // Renderer
+                const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                renderer.setSize(width, height);
+                renderer.setClearColor(0x000000, 0);
+                container.appendChild(renderer.domElement);
+                
+                // Lighting
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+                scene.add(ambientLight);
+                
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                directionalLight.position.set(5, 5, 5);
+                scene.add(directionalLight);
+                
+                // Create product mesh based on type
+                let mesh;
+                switch(product.shape) {
+                    case 'band':
+                        mesh = createFitnessBand(product.color);
+                        break;
+                    case 'watch':
+                        mesh = createSmartWatch(product.color);
+                        break;
+                    case 'earbuds':
+                        mesh = createWirelessEarbuds(product.color);
+                        break;
+                    case 'ring':
+                        mesh = createHealthRing(product.color);
+                        break;
+                    case 'glasses':
+                        mesh = createSmartGlasses(product.color);
+                        break;
+                    case 'neckband':
+                        mesh = createNeckband(product.color);
+                        break;
+                }
+                
+                scene.add(mesh);
+                
+                // Store scene data for animation
+                scenes.push({
+                    scene: scene,
+                    camera: camera,
+                    renderer: renderer,
+                    mesh: mesh,
+                    container: container
+                });
+            });
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                scenes.forEach(sceneData => {
+                    // Rotate mesh slightly
+                    sceneData.mesh.rotation.y += 0.005;
+                    
+                    // Render scene
+                    sceneData.renderer.render(sceneData.scene, sceneData.camera);
+                });
+            }
+            
+            animate();
+
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                scenes.forEach(sceneData => {
+                    const width = sceneData.container.clientWidth;
+                    const height = sceneData.container.clientHeight;
+                    
+                    sceneData.camera.aspect = width / height;
+                    sceneData.camera.updateProjectionMatrix();
+                    sceneData.renderer.setSize(width, height);
+                });
+            });
+
+            // Product creation functions
+            function createFitnessBand(color) {
+                const bandGeometry = new THREE.BoxGeometry(2, 0.2, 0.8);
+                const bandMaterial = new THREE.MeshPhongMaterial({ color: new THREE.Color(color) });
+                const band = new THREE.Mesh(bandGeometry, bandMaterial);
+                
+                const screenGeometry = new THREE.BoxGeometry(0.8, 0.15, 0.81);
+                const screenMaterial = new THREE.MeshPhongMaterial({ 
+                    color: 0x000000,
+                    emissive: 0x333333,
+                    emissiveIntensity: 0.5
+                });
+                const screen = new THREE.Mesh(screenGeometry, screenMaterial);
+                screen.position.set(0, 0, 0);
+                
+                const bandGroup = new THREE.Group();
+                bandGroup.add(band);
+                bandGroup.add(screen);
+                
+                return bandGroup;
+            }
+            
+            function createSmartWatch(color) {
+                const watchGeometry = new THREE.CylinderGeometry(0.8, 0.8, 0.3, 32);
+                const watchMaterial = new THREE.MeshPhongMaterial({ color: new THREE.Color(color) });
+                const watch = new THREE.Mesh(watchGeometry, watchMaterial);
+                watch.rotation.x = Math.PI / 2;
+                
+                const faceGeometry = new THREE.CylinderGeometry(0.75, 0.75, 0.31, 32);
+                const faceMaterial = new THREE.MeshPhongMaterial({ 
+                    color: 0x000000,
+                    emissive: 0x333333,
+                    emissiveIntensity: 0.5
+                });
+                const face = new THREE.Mesh(faceGeometry, faceMaterial);
+                face.rotation.x = Math.PI / 2;
+                
+                const watchGroup = new THREE.Group();
+                watchGroup.add(watch);
+                watchGroup.add(face);
+                
+                return watchGroup;
+            }
+            
+            function createWirelessEarbuds(color) {
+                const budGeometry = new THREE.TorusKnotGeometry(0.3, 0.1, 100, 16);
+                const budMaterial = new THREE.MeshPhongMaterial({ 
+                    color: new THREE.Color(color),
+                    specular: 0x111111,
+                    shininess: 30
+                });
+                
+                const leftBud = new THREE.Mesh(budGeometry, budMaterial);
+                leftBud.position.set(-0.5, 0, 0);
+                
+                const rightBud = new THREE.Mesh(budGeometry, budMaterial);
+                rightBud.position.set(0.5, 0, 0);
+                
+                const chargeCaseGeometry = new THREE.BoxGeometry(1, 0.5, 0.5);
+                const chargeCaseMaterial = new THREE.MeshPhongMaterial({ 
+                    color: 0x111111,
+                    specular: 0x555555,
+                    shininess: 30
+                });
+                const chargeCase = new THREE.Mesh(chargeCaseGeometry, chargeCaseMaterial);
+                chargeCase.position.set(0, -0.8, 0);
+                
+                const earbudsGroup = new THREE.Group();
+                earbudsGroup.add(leftBud);
+                earbudsGroup.add(rightBud);
+                earbudsGroup.add(chargeCase);
+                
+                return earbudsGroup;
+            }
+            
+            function createHealthRing(color) {
+                const ringGeometry = new THREE.TorusGeometry(0.5, 0.15, 16, 32);
+                const ringMaterial = new THREE.MeshPhongMaterial({ 
+                    color: new THREE.Color(color),
+                    specular: 0x111111,
+                    shininess: 30
+                });
+                const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+                
+                const sensorGeometry = new THREE.SphereGeometry(0.1, 16, 16);
+                const sensorMaterial = new THREE.MeshPhongMaterial({ 
+                    color: 0x111111,
+                    emissive: 0x333333,
+                    emissiveIntensity: 0.3
+                });
+                const sensor = new THREE.Mesh(sensorGeometry, sensorMaterial);
+                sensor.position.set(0.5, 0, 0);
+                
+                const ringGroup = new THREE.Group();
+                ringGroup.add(ring);
+                ringGroup.add(sensor);
+                
+                return ringGroup;
+            }
+            
+            function createSmartGlasses(color) {
+                const frameGeometry = new THREE.BoxGeometry(2, 0.5, 0.1);
+                const frameMaterial = new THREE.MeshPhongMaterial({ color: new THREE.Color(color) });
+                const frame = new THREE.Mesh(frameGeometry, frameMaterial);
+                
+                const lensGeometry = new THREE.PlaneGeometry(0.8, 0.4);
+                const lensMaterial = new THREE.MeshPhongMaterial({ 
+                    color: 0x555555,
+                    transparent: true,
+                    opacity: 0.7,
+                    emissive: 0x333333,
+                    emissiveIntensity: 0.2
+                });
+                
+                const leftLens = new THREE.Mesh(lensGeometry, lensMaterial);
+                leftLens.position.set(-0.5, 0, 0.11);
+                leftLens.rotation.x = Math.PI / 2;
+                
+                const rightLens = new THREE.Mesh(lensGeometry, lensMaterial);
+                rightLens.position.set(0.5, 0, 0.11);
+                rightLens.rotation.x = Math.PI / 2;
+                
+                const glassesGroup = new THREE.Group();
+                glassesGroup.add(frame);
+                glassesGroup.add(leftLens);
+                glassesGroup.add(rightLens);
+                
+                return glassesGroup;
+            }
+            
+            function createNeckband(color) {
+                const bandGeometry = new THREE.TorusGeometry(1, 0.05, 16, 100);
+                const bandMaterial = new THREE.MeshPhongMaterial({ color: new THREE.Color(color) });
+                const band = new THREE.Mesh(bandGeometry, bandMaterial);
+                
+                const controlBoxGeometry = new THREE.BoxGeometry(0.3, 0.4, 0.1);
+                const controlBoxMaterial = new THREE.MeshPhongMaterial({ color: 0x111111 });
+                const controlBox = new THREE.Mesh(controlBoxGeometry, controlBoxMaterial);
+                controlBox.position.set(0, 0, 0);
+                
+                const neckbandGroup = new THREE.Group();
+                neckbandGroup.add(band);
+                neckbandGroup.add(controlBox);
+                
+                return neckbandGroup;
+            }
+            
+            // Add hover animations to featured products
+            const featuredProducts = ['product1', 'product2', 'product3'];
+            
+            featuredProducts.forEach(productId => {
+                const container = document.getElementById(productId);
+                const sceneData = scenes.find(s => s.container.id === productId);
+                
+                if (sceneData) {
+                    container.addEventListener('mouseenter', () => {
+                        gsap.to(sceneData.mesh.rotation, {
+                            y: sceneData.mesh.rotation.y + Math.PI / 4,
+                            duration: 1,
+                            ease: "power2.inOut"
+                        });
+                        
+                        gsap.to(sceneData.mesh.position, {
+                            y: 0.5,
+                            duration: 0.5,
+                            ease: "back.out(1.7)"
+                        });
+                    });
+                    
+                    container.addEventListener('mouseleave', () => {
+                        gsap.to(sceneData.mesh.rotation, {
+                            y: sceneData.mesh.rotation.y - Math.PI / 4,
+                            duration: 1,
+                            ease: "power2.inOut"
+                        });
+                        
+                        gsap.to(sceneData.mesh.position, {
+                            y: 0,
+                            duration: 0.5,
+                            ease: "back.out(1.7)"
+                        });
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

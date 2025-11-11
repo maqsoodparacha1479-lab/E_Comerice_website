@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Audio Products | SoundMaster Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 3D animation styles */
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px) rotateY(5deg);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .product-3d {
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px) rotateY(5deg);
+            }
+        }
+
+        /* Deal badge animation */
+        .deal-badge {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Countdown animation */
+        .countdown-number {
+            transition: all 0.3s ease;
+        }
+
+        .countdown-number:hover {
+            transform: scale(1.1);
+            color: #3b82f6;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-content {
+                flex-direction: column;
+            }
+
+            .product-3d {
+                margin-top: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md py-4">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="text-2xl font-bold text-blue-600">
+                <span class="text-gray-900">SoundMaster</span> Pro
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="{% url 'web' %}" class="text-gray-700 hover:text-blue-600">Home</a>
+                <a href="#" class="text-gray-700 hover:text-blue-600">Products</a>
+                <a href="#" class="text-gray-700 hover:text-blue-600">Deals</a>
+                <a href="#" class="text-gray-700 hover:text-blue-600">Support</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="p-2 text-gray-600 hover:text-blue-600">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="p-2 text-gray-600 hover:text-blue-600">
+                    <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button class="md:hidden p-2 text-gray-600 hover:text-blue-600">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with 3D Product -->
+    <section class="py-12 bg-gradient-to-r from-gray-900 to-blue-900 text-white">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center hero-content">
+            <div class="md:w-1/2 mb-8 md:mb-0">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Experience Audio Perfection</h1>
+                <p class="text-xl mb-8 text-gray-300">Premium sound quality with our latest wireless headphones and
+                    speakers</p>
+                <div class="flex space-x-4">
+                    <button
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition duration-300">
+                        Shop Now
+                    </button>
+                    <button
+                        class="border border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition duration-300">
+                        View Deals
+                    </button>
+                </div>
+            </div>
+            <div class="md:w-1/2 product-3d flex justify-center">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f96679b5-c6d1-4638-842d-869206741e7f.png"
+                    alt="3D rendered high-end wireless headphones in matte black with gleaming metal accents floating in a blue gradient background"
+                    class="max-w-full h-auto" />
+            </div>
+        </div>
+    </section>
+
+    <!-- Deals Countdown -->
+    <section class="py-8 bg-red-600 text-white">
+        <div class="container mx-auto px-6 text-center">
+            <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8">
+                <span class="text-xl font-bold">Flash Sale Ending In:</span>
+                <div class="flex space-x-4 countdown-timer">
+                    <div class="flex flex-col items-center">
+                        <span class="text-3xl font-bold countdown-number" id="countdown-hours">12</span>
+                        <span class="text-sm">Hours</span>
+                    </div>
+                    <span class="text-3xl font-bold">:</span>
+                    <div class="flex flex-col items-center">
+                        <span class="text-3xl font-bold countdown-number" id="countdown-minutes">35</span>
+                        <span class="text-sm">Minutes</span>
+                    </div>
+                    <span class="text-3xl font-bold">:</span>
+                    <div class="flex flex-col items-center">
+                        <span class="text-3xl font-bold countdown-number" id="countdown-seconds">18</span>
+                        <span class="text-sm">Seconds</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>3D Accessories Design Showcase</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            :root {
+                --primary: #3a0ca3;
+                --secondary: #f72585;
+                --accent: #4cc9f0;
+                --light: #ffffff;
+                --dark: #0c0f0a;
+            }
+
+            body {
+                font-family: 'Montserrat', sans-serif;
+                background-color: #f8f9fa;
+                color: var(--dark);
+            }
+
+            .accessories-section {
+                perspective: 1000px;
+                padding: 4rem 2rem;
+                max-width: 1400px;
+                margin: 0 auto;
+            }
+
+            .section-title {
+                text-align: center;
+                font-size: 2.5rem;
+                margin-bottom: 3rem;
+                position: relative;
+                color: var(--primary);
+            }
+
+            .section-title:after {
+                content: '';
+                display: block;
+                width: 80px;
+                height: 4px;
+                background: var(--secondary);
+                margin: 1rem auto;
+            }
+
+            .accessories-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 2rem;
+                padding: 1rem;
+            }
+
+            .accessory-card {
+                position: relative;
+                width: 100%;
+                height: 380px;
+                transform-style: preserve-3d;
+                transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                border-radius: 12px;
+                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            }
+
+            .accessory-card:hover {
+                transform: rotateY(180deg);
+            }
+
+            .card-front,
+            .card-back {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                backface-visibility: hidden;
+                border-radius: 12px;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                background: white;
+            }
+
+            .card-back {
+                transform: rotateY(180deg);
+                background: linear-gradient(135deg, var(--primary), var(--secondary));
+                color: white;
+                padding: 1.5rem;
+                justify-content: center;
+            }
+
+            .card-image {
+                height: 240px;
+                overflow: hidden;
+                position: relative;
+            }
+
+            .card-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.3s ease;
+            }
+
+            .accessory-card:hover .card-image img {
+                transform: scale(1.05);
+            }
+
+            .card-details {
+                padding: 1.5rem;
+                flex-grow: 1;
+            }
+
+            .card-title {
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+            }
+
+            .card-price {
+                color: var(--secondary);
+                font-weight: 700;
+                font-size: 1.1rem;
+            }
+
+            .back-title {
+                font-size: 1.4rem;
+                margin-bottom: 1rem;
+                font-weight: 600;
+            }
+
+            .back-description {
+                font-size: 0.9rem;
+                line-height: 1.5;
+                margin-bottom: 1.5rem;
+                opacity: 0.9;
+            }
+
+            .btn {
+                display: inline-block;
+                padding: 0.6rem 1.5rem;
+                background: white;
+                color: var(--primary);
+                border-radius: 30px;
+                text-decoration: none;
+                font-weight: 600;
+                transition: all 0.3s ease;
+            }
+
+            .btn:hover {
+                background: var(--light);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            }
+
+            .category-filters {
+                display: flex;
+                justify-content: center;
+                gap: 1rem;
+                margin-bottom: 2rem;
+                flex-wrap: wrap;
+            }
+
+            .filter-btn {
+                padding: 0.5rem 1.25rem;
+                background: #f0f0f0;
+                border: none;
+                border-radius: 20px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-weight: 500;
+            }
+
+            .filter-btn:hover,
+            .filter-btn.active {
+                background: var(--primary);
+                color: white;
+                transform: translateY(-2px);
+            }
+        </style>
+    </head>
+
+    <body>
+        <section class="accessories-section">
+
+
+            <div class="category-filters">
+                <button class="filter-btn active" data-category="all">All</button>
+                <button class="filter-btn" data-category="jewelry">Jewelry</button>
+
+                <a href="{% url 'watches' %}" class="filter-btn">Watches</a>
+
+
+                <a href="{% url 'bags' %}" class="filter-btn">bags</a>
+
+                <a href="{% url 'eyewear' %}" class="filter-btn">Eyewear</a>
+            </div>
+
+            <div class="accessories-grid">
+                <!-- Accessory 1 -->
+                <div class="accessory-card" data-category="jewelry">
+                    <div class="card-front">
+                        <div class="card-image">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b73ba910-510f-4a82-9c59-9e3a9952227b.png"
+                                alt="Modern geometric silver necklace with angular pendant on dark velvet background" />
+                        </div>
+                        <div class="card-details">
+                            <h3 class="card-title">Geometric Silver Necklace</h3>
+                            <p class="card-price">$89.99</p>
+                        </div>
+                    </div>
+                    <div class="card-back">
+                        <h3 class="back-title">Geometric Silver Necklace</h3>
+                        <p class="back-description">
+                            Handcrafted silver necklace with contemporary geometric design. Hypoallergenic and
+                            tarnish-resistant for long-lasting wear.
+                        </p>
+                        <a href="#" class="btn">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Accessory 2 -->
+                <div class="accessory-card">
+                    <div class="card-front">
+                        <div class="card-image">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/46ed4cfa-79ae-4754-b4b8-fa5e634ab198.png"
+                                alt="Minimalist round gold cufflinks with black onyx inlay on marble surface" />
+                        </div>
+                        <div class="card-details">
+                            <h3 class="card-title">Minimalist Cufflinks</h3>
+                            <p class="card-price">$129.99</p>
+                        </div>
+                    </div>
+                    <div class="card-back">
+                        <h3 class="back-title">Minimalist Cufflinks</h3>
+                        <p class="back-description">
+                            Elegant gold cufflinks featuring black onyx inlay. Perfect for formal occasions or to
+                            elevate your everyday style.
+                        </p>
+                        <a href="#" class="btn">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Accessory 3 -->
+                <div class="accessory-card">
+                    <div class="card-front">
+                        <div class="card-image">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/2f50f96d-6441-4c1e-9540-55b60735a42e.png"
+                                alt="Stack of three thin gold bangles with diamond-cut detailing on white background" />
+                        </div>
+                        <div class="card-details">
+                            <h3 class="card-title">Diamond Cut Bangles</h3>
+                            <p class="card-price">$179.99</p>
+                        </div>
+                    </div>
+                    <div class="card-back">
+                        <h3 class="back-title">Diamond Cut Bangles</h3>
+                        <p class="back-description">
+                            Set of three 18k gold bangles with exquisite diamond-cut detailing that catches the light
+                            beautifully with every movement.
+                        </p>
+                        <a href="#" class="btn">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Accessory 4 -->
+                <div class="accessory-card">
+                    <div class="card-front">
+                        <div class="card-image">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/06960d12-91f6-4e5a-8c67-37cd322a4236.png"
+                                alt="Black leather unisex watch with rose gold case and mesh strap in studio lighting" />
+                        </div>
+                        <div class="card-details">
+                            <h3 class="card-title">Classic Leather Watch</h3>
+                            <p class="card-price">$249.99</p>
+                        </div>
+                    </div>
+                    <div class="card-back">
+                        <h3 class="back-title">Classic Leather Watch</h3>
+                        <p class="back-description">
+                            Sophisticated timepiece featuring Swiss movement, genuine Italian leather strap, and rose
+                            gold case with sapphire crystal.
+                        </p>
+                        <a href="#" class="btn">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <script>
+            // Enhance 3D effect with more natural rotation
+            document.querySelectorAll('.accessory-card').forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+
+                    // Calculate rotation based on mouse position
+                    const rotateY = (x - centerX) / 30;
+                    const rotateX = (centerY - y) / 30;
+
+                    if (!card.classList.contains('hover')) {
+                        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                    }
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = '';
+                });
+
+                card.addEventListener('click', () => {
+                    card.classList.toggle('hover');
+                });
+            });
+
+            // Category filtering functionality
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Update active button
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    const category = btn.dataset.category;
+                    const cards = document.querySelectorAll('.accessory-card');
+
+                    cards.forEach(card => {
+                        if (category === 'all' || card.dataset.category === category) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+
+    </html>
+
+
+
+
+
+
+
+
+
+
+    <!-- Featured Products -->
+    <section class="py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-12">Featured Audio Products</h2>
+
+            <div class="flex flex-wrap -mx-4">
+                <!-- Product 1 -->
+                <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg product-card p-6">
+                        <div class="relative mb-6 product-3d">
+                            <div
+                                class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg deal-badge">
+                                30% OFF</div>
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/03ddab4c-e4c9-4a90-a749-2aafe3eac96e.png"
+                                alt="Wireless noise-canceling headphones in space gray with dynamic 3D rotation showing sleek profile and elegant details"
+                                class="w-full h-64 object-contain" />
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Pro-X Wireless Headphones</h3>
+                        <div class="flex items-center mb-3">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="text-gray-600 text-sm ml-2">(128 reviews)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-2xl font-bold text-gray-900">$199.99</span>
+                            <span class="text-sm text-gray-500 line-through ml-2">$249.99</span>
+                        </div>
+                        <button
+                            class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition duration-300">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg product-card p-6">
+                        <div class="relative mb-6 product-3d">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a9d4fbc0-1925-42d5-800a-c1ce07d36b67.png"
+                                alt="Portable Bluetooth speaker in navy blue with 360-degree 3D view showing premium fabric finish and soft-touch controls"
+                                class="w-full h-64 object-contain" />
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Nova Portable Speaker</h3>
+                        <div class="flex items-center mb-3">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="text-gray-600 text-sm ml-2">(87 reviews)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-2xl font-bold text-gray-900">$149.99</span>
+                        </div>
+                        <button
+                            class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition duration-300">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg product-card p-6">
+                        <div class="relative mb-6 product-3d">
+                            <div
+                                class="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg deal-badge">
+                                NEW</div>
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3d16b58b-3a58-4594-a6b5-dac8e1d3e04d.png"
+                                alt="True wireless earbuds in glossy white with 3D rotation showing compact charging case and ergonomic earbud design"
+                                class="w-full h-64 object-contain" />
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Aura True Wireless Earbuds</h3>
+                        <div class="flex items-center mb-3">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span class="text-gray-600 text-sm ml-2">(42 reviews)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-2xl font-bold text-gray-900">$129.99</span>
+                        </div>
+                        <button
+                            class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition duration-300">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Offers -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-12">Limited Time Offers</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Offer 1 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg product-card">
+                    <div class="flex flex-col md:flex-row">
+                        <div class="md:w-1/2 product-3d">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/59010e78-caed-4c88-b6c1-d6de5aaee1e0.png"
+                                alt="High-end home theater system with wireless subwoofer and satellite speakers in a sleek 3D rendered living room setup"
+                                class="w-full h-full object-cover" />
+                        </div>
+                        <div class="md:w-1/2 p-6 flex flex-col justify-center">
+                            <div class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded-full w-max mb-4">
+                                WEEKEND DEAL
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">Home Theater Bundle</h3>
+                            <p class="text-gray-600 mb-4">Complete 5.1 channel system with wireless subwoofer and
+                                satellite speakers. Perfect for movie nights.</p>
+                            <div class="flex items-center mb-6">
+                                <span class="text-3xl font-bold text-gray-900">$399.99</span>
+                                <span class="text-sm text-gray-500 line-through ml-2">$599.99</span>
+                                <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded-full ml-2">33%
+                                    OFF</span>
+                            </div>
+                            <button
+                                class="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg transition duration-300">
+                                Grab This Deal
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Offer 2 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg product-card">
+                    <div class="flex flex-col md:flex-row">
+                        <div class="md:w-1/2 product-3d">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/67a3f78f-bd8d-4157-9a84-0baebca296d3.png"
+                                alt="Premium noise-canceling headphones with golden accents in 3D rotation showing foldable design and premium carrying case"
+                                class="w-full h-full object-cover" />
+                        </div>
+                        <div class="md:w-1/2 p-6 flex flex-col justify-center">
+                            <div
+                                class="bg-yellow-100 text-yellow-800 text-xs font-bold px-2 py-1 rounded-full w-max mb-4">
+                                BUNDLE SAVINGS
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">Headphones + Speaker Pack</h3>
+                            <p class="text-gray-600 mb-4">Get our top-rated headphones plus a portable speaker. Ideal
+                                for travel and home use.</p>
+                            <div class="flex items-center mb-6">
+                                <span class="text-3xl font-bold text-gray-900">$299.99</span>
+                                <span class="text-sm text-gray-500 line-through ml-2">$379.99</span>
+                                <span
+                                    class="bg-yellow-100 text-yellow-800 text-xs font-bold px-2 py-1 rounded-full ml-2">SAVE
+                                    $80</span>
+                            </div>
+                            <button
+                                class="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg transition duration-300">
+                                View Bundle
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Categories -->
+    <section class="py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-12">Shop by Category</h2>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div
+                    class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300 product-card">
+                    <div class="h-40 w-full bg-blue-100 flex items-center justify-center product-3d">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/dc0824ae-dbf2-4c43-9178-8e5ffe8f0017.png"
+                            alt="Headphones collection in various colors with minimalist styling, floating in 3D space against white background"
+                            class="w-full h-full object-contain" />
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-center">Headphones</h3>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300 product-card">
+                    <div class="h-40 w-full bg-red-100 flex items-center justify-center product-3d">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/245cc32e-e479-40fc-82dc-ba23fde72476.png"
+                            alt="Assortment of wireless earbuds with charging cases, displayed in 3D formation with glowing highlights"
+                            class="w-full h-full object-contain" />
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-center">Earbuds</h3>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300 product-card">
+                    <div class="h-40 w-full bg-green-100 flex items-center justify-center product-3d">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ebdf97f2-d419-4932-a186-70f3d8c61609.png"
+                            alt="Various portable Bluetooth speakers in different sizes and colors, arranged in a dynamic 3D circle"
+                            class="w-full h-full object-contain" />
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-center">Speakers</h3>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300 product-card">
+                    <div class="h-40 w-full bg-purple-100 flex items-center justify-center product-3d">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ba8ee5e6-1c90-4ec5-b010-4e516aed4096.png"
+                            alt="Home audio systems including soundbars and subwoofers in a stylish 3D rendered living room setting"
+                            class="w-full h-full object-contain" />
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-center">Home Audio</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+        // Countdown timer
+        function updateCountdown() {
+            const now = new Date();
+            const tomorrow = new Date();
+            tomorrow.setDate(now.getDate() + 1);
+            tomorrow.setHours(0, 0, 0, 0);
+
+            const diff = tomorrow - now;
+
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('countdown-seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // 3D hover effects for products
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                card.style.transform = `translateY(-10px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) rotateY(0) rotateX(0)';
+            });
+        });
+
+        // Mobile menu toggle would go here
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Bags Collection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        /* Container for bags section */
+        .bags-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        /* Section header styles */
+        .section-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Filter tabs */
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 10px;
+        }
+
+        .filter-tab {
+            padding: 10px 25px;
+            background: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #2c3e50;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .filter-tab:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .filter-tab.active {
+            background: #3498db;
+            color: white;
+        }
+
+        /* Bags grid */
+        .bags-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        /* Bag card styles with 3D animation */
+        .bag-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .bag-card:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Deal ribbon */
+        .deal-ribbon {
+            position: absolute;
+            top: 10px;
+            right: -30px;
+            background: #e74c3c;
+            color: white;
+            padding: 5px 30px;
+            transform: rotate(45deg);
+            font-weight: 600;
+            font-size: 0.8rem;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Bag image container with 3D effect */
+        .bag-image-container {
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+        }
+
+        .bag-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .bag-card:hover .bag-image-container img {
+            transform: scale(1.05) rotateY(10deg);
+        }
+
+        /* Bag info */
+        .bag-info {
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+            background: white;
+            transform-style: preserve-3d;
+        }
+
+        .bag-info h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .bag-info .category {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .price-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .current-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .original-price {
+            font-size: 1rem;
+            color: #95a5a6;
+            text-decoration: line-through;
+            margin-left: 10px;
+        }
+
+        .discount {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #27ae60;
+        }
+
+        /* Add to cart button */
+        .add-to-cart {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .add-to-cart:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+
+        /* Floating bags animation in background */
+        .floating-bags {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .floating-bag {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+
+            100% {
+                transform: translateY(-200px) rotate(360deg) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .bags-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .bag-card:hover {
+                transform: translateY(-5px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .filter-tabs {
+                flex-wrap: wrap;
+            }
+
+            .bags-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bags-container" id="bagsSection">
+        <div class="section-header">
+            <h2>Premium Bags Collection</h2>
+            <p>Discover our latest collection of stylish and functional bags for every occasion with exclusive deals</p>
+        </div>
+
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-category="all">All Bags</button>
+            <button class="filter-tab" data-category="women">Ladies Bags</button>
+            <button class="filter-tab" data-category="men">Men's Bags</button>
+            <button class="filter-tab" data-category="deal">Hot Deals</button>
+        </div>
+
+        <div class="bags-grid">
+            <!-- Women's Bag 1 -->
+            <div class="bag-card" data-category="women deal">
+                <div class="deal-ribbon">30% OFF</div>
+                <div class="bag-image-container">
+                    <img
+                        src="https://img.drz.lazcdn.com/static/pk/p/d0d17cbefba6c3d2920a788832a14b3d.jpg_960x960q80.jpg_.webp">
+                </div>
+                <div class="bag-info">
+                    <h3>Prestige Tote</h3>
+                    <span class="category">Ladies Handbag</span>
+                    <div class="price-container">
+                        <div>
+                            <span class="current-price">$89.99</span>
+                            <span class="original-price">$129.99</span>
+                            <span class="discount">30% OFF</span>
+                        </div>
+                        <a href="{% url 'card_page' %}">
+                            <button class="add-to-cart">Add to Cart</button>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Men's Bag 1 -->
+            <div class="bag-card" data-category="men">
+                <div class="bag-image-container">
+                    <img src="https://jafferjees.com/cdn/shop/files/5636929310_1.jpg?v=1746990437">
+                </div>
+                <div class="bag-info">
+                    <h3>Urban Messenger</h3>
+                    <span class="category">Men's Office Bag</span>
+                    <div class="price-container">
+                        <div>
+                            <span class="current-price">$109.99</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Women's Bag 2 -->
+            <div class="bag-card" data-category="women deal">
+                <div class="deal-ribbon">25% OFF</div>
+                <div class="bag-image-container">
+                    <img
+                        src="https://www.accessorize.com/dw/image/v2/BDLV_PRD/on/demandware.static/-/Sites-accessorize-master-catalog/default/dwb9e6203b/images/large/21_40002490021_1.jpg?sw=470&sh=602&sm=cut">
+                </div>
+                <div class="bag-info">
+                    <h3>Glamour Clutch</h3>
+                    <span class="category">Ladies Evening Bag</span>
+                    <div class="price-container">
+                        <div>
+                            <span class="current-price">$59.99</span>
+                            <span class="original-price">$79.99</span>
+                            <span class="discount">25% OFF</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Men's Bag 2 -->
+            <div class="bag-card" data-category="men deal">
+                <div class="deal-ribbon">15% OFF</div>
+                <div class="bag-image-container">
+                    <img
+                        src="https://vonbaer.com/cdn/shop/files/von-baer-grand-high-quality-large-full-grain-leather-garment-travel-bag-carried-by-male-model.jpg?v=1713182293&width=575">
+                </div>
+                <div class="bag-info">
+                    <h3>Tech Backpack</h3>
+                    <span class="category">Men's Travel Bag</span>
+                    <div class="price-container">
+                        <div>
+                            <span class="current-price">$74.99</span>
+                            <span class="original-price">$89.99</span>
+                            <span class="discount">15% OFF</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Women's Bag 3 -->
+            <div class="bag-card" data-category="women">
+                <div class="bag-image-container">
+                    <img
+                        src="https://image.made-in-china.com/2f0j00dmPokycLPIqn/Women-Luxury-Designer-Brand-Handbags-High-Capacity-Casual-Shoulder-Bags-Soft-PU-Leather-Crossbody-Bag-for-Women-Ladies-Tote-Bags.webp">
+                </div>
+                <div class="bag-info">
+                    <h3>Eco Crossbody</h3>
+                    <span class="category">Ladies Casual Bag</span>
+                    <div class="price-container">
+                        <div>
+                            <span class="current-price">$45.99</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Men's Bag 3 -->
+            <div class="bag-card" data-category="men deal">
+                <div class="deal-ribbon">20% OFF</div>
+                <div class="bag-image-container">
+                    <img src="https://www.flipy.pk/cdn/shop/files/H26c12f5a714b4da2a60b73941463ace7e.jpg?v=1725702023">
+                </div>
+                <div class="bag-info">
+                    <h3>Executive Briefcase</h3>
+                    <span class="category">Men's Work Bag</span>
+                    <div class="price-container">
+                        <div>
+                            <span class="current-price">$119.99</span>
+                            <span class="original-price">$149.99</span>
+                            <span class="discount">20% OFF</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Centered More Button -->
+        <div style="text-align: center; margin-top: 30px;">
+            <button class="btn-primary" onclick="showMore()">More</button>
+        </div>
+
+        <!-- Hidden Content With Link -->
+        <div id="more-content" style="display: none; margin-top: 20px; text-align: center;">
+            <p>This is the hidden content that appears after 2 seconds.</p>
+            <a href="https://example.com" target="_blank" class="btn-primary"
+                style="margin-top: 10px; display: inline-block;">Visit Project</a>
+        </div>
+
+
+
+        <!-- Floating bag animations in background -->
+        <div class="floating-bags" id="floatingBags"></div>
+    </div>
+
+    <script>
+        // Filter functionality
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                const category = tab.dataset.category;
+                const bags = document.querySelectorAll('.bag-card');
+
+                bags.forEach(bag => {
+                    if (category === 'all' || bag.dataset.category.includes(category)) {
+                        bag.style.display = 'block';
+
+                        // Add 3D animation for visible cards
+                        setTimeout(() => {
+                            bag.style.opacity = '1';
+                            bag.style.transform = 'translateY(-10px) rotateX(5deg) rotateY(5deg)';
+                        }, 50);
+                    } else {
+                        bag.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Enhanced 3D hover effects
+        const cards = document.querySelectorAll('.bag-card');
+
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 15;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 15;
+                card.style.transform = `translateY(-10px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(-10px) rotateX(5deg) rotateY(5deg)';
+            });
+        });
+
+        // Create floating bag animations
+        const floatingBagsContainer = document.getElementById('floatingBags');
+        const bagTypes = [
+            "tote", "clutch", "backpack", "briefcase", "crossbody", "satchel"
+        ];
+
+        for (let i = 0; i < 10; i++) {
+            const floatingBag = document.createElement('div');
+            floatingBag.classList.add('floating-bag');
+            floatingBag.style.left = `${Math.random() * 100}%`;
+            floatingBag.style.bottom = `-100px`;
+            floatingBag.style.backgroundImage = `url('https://placehold.co/100x100?text=${bagTypes[i % 6]})`;
+            floatingBag.style.animationDuration = `${15 + Math.random() * 10}s`;
+            floatingBag.style.animationDelay = `${Math.random() * 5}s`;
+            floatingBagsContainer.appendChild(floatingBag);
+        }
+
+        // Random slight animations for other elements
+        const dealRibbons = document.querySelectorAll('.deal-ribbon');
+        dealRibbons.forEach(ribbon => {
+            ribbon.style.transform = `rotate(45deg) translateY(${Math.random() * 5}px)`;
+            ribbon.style.animation = `pulse 2s infinite`;
+
+            // Add animation in style tag
+            const style = document.createElement('style');
+            style.innerHTML = `
+                @keyframes pulse {
+                    0% { opacity: 0.9; }
+                    50% { opacity: 1; transform: rotate(45deg) scale(1.05) translateY(${Math.random() * 5}px); }
+                    100% { opacity: 0.9; }
+                }
+            `;
+            document.head.appendChild(style);
+
+
+            function showMore() {
+                setTimeout(() => {
+                    document.getElementById("more-content").style.display = "block";
+                }, 2000); // 2 seconds delay
+
+    </script>
+
+    });
+    </script>
+</body>
+
+</html>

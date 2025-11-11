@@ -1,0 +1,481 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Bags Collection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        /* Container for bags section */
+        .bags-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        /* Section header styles */
+        .section-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Filter tabs */
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 10px;
+        }
+
+        .filter-tab {
+            padding: 10px 25px;
+            background: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #2c3e50;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .filter-tab:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .filter-tab.active {
+            background: #3498db;
+            color: white;
+        }
+
+        /* Bags grid */
+        .bags-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        /* Bag card styles with 3D animation */
+        .bag-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .bag-card:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        /* Deal ribbon */
+        .deal-ribbon {
+            position: absolute;
+            top: 10px;
+            right: -30px;
+            background: #e74c3c;
+            color: white;
+            padding: 5px 30px;
+            transform: rotate(45deg);
+            font-weight: 600;
+            font-size: 0.8rem;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Bag image container with 3D effect */
+        .bag-image-container {
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+        }
+
+        .bag-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .bag-card:hover .bag-image-container img {
+            transform: scale(1.05) rotateY(10deg);
+        }
+
+        /* Bag info */
+        .bag-info {
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+            background: white;
+            transform-style: preserve-3d;
+        }
+
+        .bag-info h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .bag-info .category {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .price-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .current-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .original-price {
+            font-size: 1rem;
+            color: #95a5a6;
+            text-decoration: line-through;
+            margin-left: 10px;
+        }
+
+        .discount {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #27ae60;
+        }
+
+        /* Add to cart button */
+        .add-to-cart {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .add-to-cart:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+
+        /* Floating bags animation in background */
+        .floating-bags {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .floating-bag {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-200px) rotate(360deg) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .bags-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .bag-card:hover {
+                transform: translateY(-5px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .filter-tabs {
+                flex-wrap: wrap;
+            }
+
+            .bags-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bags-container" id="bagsSection">
+        <div class="section-header">
+            <h2>Premium Bags Collection</h2>
+            <p>Discover our latest collection of stylish and functional bags for every occasion with exclusive deals</p>
+        </div>
+
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-category="all">All Bags</button>
+            <button class="filter-tab" data-category="women">Ladies Bags</button>
+            <button class="filter-tab" data-category="men">Men's Bags</button>
+            <button class="filter-tab" data-category="deal">Hot Deals</button>
+        </div>
+
+        <div class="bags-grid">
+            <!-- Women's Bag 1 -->
+            <div class="bag-card" data-category="women deal">
+                <div class="deal-ribbon">30% OFF</div>
+                <div class="bag-image-container">
+                    <img src="https://img.drz.lazcdn.com/static/pk/p/d0d17cbefba6c3d2920a788832a14b3d.jpg_960x960q80.jpg_.webp">
+                </div>
+                <div class="bag-info">
+                    <h3>Prestige Tote</h3>
+                    <span class="category">Ladies Handbag</span>
+                    <div class="price-container">
+                        <div>
+                            <span class="current-price">$89.99</span>
+                            <span class="original-price">$129.99</span>
+                            <span class="discount">30% OFF</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Men's Bag 1 -->
+            <div class="bag-card" data-category="men">
+                <div class="bag-image-container">
+                    <img src="https://jafferjees.com/cdn/shop/files/5636929310_1.jpg?v=1746990437">
+                </div>
+                <div class="bag-info">
+                    <h3>Urban Messenger</h3>
+                    <span class="category">Men's Office Bag</span>
+                    <div class="price-container">
+                        <div>
+                            <span class="current-price">$109.99</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Women's Bag 2 -->
+            <div class="bag-card" data-category="women deal">
+                <div class="deal-ribbon">25% OFF</div>
+                <div class="bag-image-container">
+                    <img src="https://www.accessorize.com/dw/image/v2/BDLV_PRD/on/demandware.static/-/Sites-accessorize-master-catalog/default/dwb9e6203b/images/large/21_40002490021_1.jpg?sw=470&sh=602&sm=cut">
+                </div>
+                <div class="bag-info">
+                    <h3>Glamour Clutch</h3>
+                    <span class="category">Ladies Evening Bag</span>
+                    <div class="price-container">
+                        <div>
+                            <span class="current-price">$59.99</span>
+                            <span class="original-price">$79.99</span>
+                            <span class="discount">25% OFF</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Men's Bag 2 -->
+            <div class="bag-card" data-category="men deal">
+                <div class="deal-ribbon">15% OFF</div>
+                <div class="bag-image-container">
+                    <img src="https://vonbaer.com/cdn/shop/files/von-baer-grand-high-quality-large-full-grain-leather-garment-travel-bag-carried-by-male-model.jpg?v=1713182293&width=575">
+                </div>
+                <div class="bag-info">
+                    <h3>Tech Backpack</h3>
+                    <span class="category">Men's Travel Bag</span>
+                    <div class="price-container">
+                        <div>
+                            <span class="current-price">$74.99</span>
+                            <span class="original-price">$89.99</span>
+                            <span class="discount">15% OFF</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Women's Bag 3 -->
+            <div class="bag-card" data-category="women">
+                <div class="bag-image-container">
+                    <img src="https://image.made-in-china.com/2f0j00dmPokycLPIqn/Women-Luxury-Designer-Brand-Handbags-High-Capacity-Casual-Shoulder-Bags-Soft-PU-Leather-Crossbody-Bag-for-Women-Ladies-Tote-Bags.webp">
+                </div>
+                <div class="bag-info">
+                    <h3>Eco Crossbody</h3>
+                    <span class="category">Ladies Casual Bag</span>
+                    <div class="price-container">
+                        <div>
+                            <span class="current-price">$45.99</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Men's Bag 3 -->
+            <div class="bag-card" data-category="men deal">
+                <div class="deal-ribbon">20% OFF</div>
+                <div class="bag-image-container">
+                    <img src="https://www.flipy.pk/cdn/shop/files/H26c12f5a714b4da2a60b73941463ace7e.jpg?v=1725702023">
+                </div>
+                <div class="bag-info">
+                    <h3>Executive Briefcase</h3>
+                    <span class="category">Men's Work Bag</span>
+                    <div class="price-container">
+                        <div>
+                            <span class="current-price">$119.99</span>
+                            <span class="original-price">$149.99</span>
+                            <span class="discount">20% OFF</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating bag animations in background -->
+        <div class="floating-bags" id="floatingBags"></div>
+    </div>
+
+    <script>
+        // Filter functionality
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                const category = tab.dataset.category;
+                const bags = document.querySelectorAll('.bag-card');
+                
+                bags.forEach(bag => {
+                    if (category === 'all' || bag.dataset.category.includes(category)) {
+                        bag.style.display = 'block';
+                        
+                        // Add 3D animation for visible cards
+                        setTimeout(() => {
+                            bag.style.opacity = '1';
+                            bag.style.transform = 'translateY(-10px) rotateX(5deg) rotateY(5deg)';
+                        }, 50);
+                    } else {
+                        bag.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Enhanced 3D hover effects
+        const cards = document.querySelectorAll('.bag-card');
+        
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 15;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 15;
+                card.style.transform = `translateY(-10px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(-10px) rotateX(5deg) rotateY(5deg)';
+            });
+        });
+
+        // Create floating bag animations
+        const floatingBagsContainer = document.getElementById('floatingBags');
+        const bagTypes = [
+            "tote", "clutch", "backpack", "briefcase", "crossbody", "satchel"
+        ];
+        
+        for (let i = 0; i < 10; i++) {
+            const floatingBag = document.createElement('div');
+            floatingBag.classList.add('floating-bag');
+            floatingBag.style.left = `${Math.random() * 100}%`;
+            floatingBag.style.bottom = `-100px`;
+            floatingBag.style.backgroundImage = `url('https://placehold.co/100x100?text=${bagTypes[i%6]})`;
+            floatingBag.style.animationDuration = `${15 + Math.random() * 10}s`;
+            floatingBag.style.animationDelay = `${Math.random() * 5}s`;
+            floatingBagsContainer.appendChild(floatingBag);
+        }
+
+        // Random slight animations for other elements
+        const dealRibbons = document.querySelectorAll('.deal-ribbon');
+        dealRibbons.forEach(ribbon => {
+            ribbon.style.transform = `rotate(45deg) translateY(${Math.random() * 5}px)`;
+            ribbon.style.animation = `pulse 2s infinite`;
+            
+            // Add animation in style tag
+            const style = document.createElement('style');
+            style.innerHTML = `
+                @keyframes pulse {
+                    0% { opacity: 0.9; }
+                    50% { opacity: 1; transform: rotate(45deg) scale(1.05) translateY(${Math.random() * 5}px); }
+                    100% { opacity: 0.9; }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
+
+
+ -->

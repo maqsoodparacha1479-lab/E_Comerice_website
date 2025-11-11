@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Eyewear Collection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #121212;
+            --secondary: #f5f5f5;
+            --accent: #3a86ff;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--secondary);
+            color: var(--primary);
+            overflow-x: hidden;
+        }
+        
+        .glasses-container {
+            perspective: 1000px;
+            transition: all 0.3s ease;
+        }
+        
+        .glasses-card {
+            transform-style: preserve-3d;
+            transition: transform 1s;
+            position: relative;
+        }
+        
+        .glasses-card:hover {
+            transform: rotateY(180deg);
+        }
+        
+        .glasses-front, .glasses-back {
+            backface-visibility: hidden;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glasses-back {
+            transform: rotateY(180deg);
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .section-title:hover::after {
+            transform: scaleX(1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-12">
+        <h1 class="text-4xl font-bold text-center mb-16">Premium Eyewear Collection</h1>
+        
+        <!-- Men's Glasses Section -->
+        <section class="mb-24">
+            <h2 class="text-3xl font-semibold mb-8 section-title">Men's Eyewear</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Glasses 1 -->
+                <div class="glasses-container h-96">
+                    <div class="glasses-card h-full bg-white rounded-lg shadow-xl overflow-hidden">
+                        <div class="glasses-front h-full flex flex-col">
+                            <div class="flex-grow flex items-center justify-center p-4">
+                                <img src="https://optilookpk.com/cdn/shop/files/008-3_e6c4e734-139c-480b-91dc-cc36085a4022.jpg?v=1728734282" />
+                            </div>
+                            <div class="p-4 bg-gray-50">
+                                <h3 class="font-bold text-xl">Executive Premium</h3>
+                                <p class="text-gray-600">Classic rectangular frames</p>
+                            </div>
+                        </div>
+                        <div class="glasses-back">
+                            <h3 class="font-bold text-xl mb-2">Executive Premium</h3>
+                            <p class="text-sm mb-4">Premium acetate frames with gold metal accents</p>
+                            <span class="font-bold text-lg">$199</span>
+                            <button class="mt-4 px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition">View Details</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Glasses 2 -->
+                <div class="glasses-container h-96">
+                    <div class="glasses-card h-full bg-white rounded-lg shadow-xl overflow-hidden">
+                        <div class="glasses-front h-full flex flex-col">
+                            <div class="flex-grow flex items-center justify-center p-4">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcO7SHNmkwY5QJeeDrUYYivVP7PrR7skLYFA&s" />
+                            </div>
+                            <div class="p-4 bg-gray-50">
+                                <h3 class="font-bold text-xl">Titanium Round</h3>
+                                <p class="text-gray-600">Ultra-lightweight frames</p>
+                            </div>
+                        </div>
+                        <div class="glasses-back">
+                            <h3 class="font-bold text-xl mb-2">Titanium Round</h3>
+                            <p class="text-sm mb-4">Lightweight titanium frames with blue light filter</p>
+                            <span class="font-bold text-lg">$249</span>
+                            <button class="mt-4 px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition">View Details</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Glasses 3 -->
+                <div class="glasses-container h-96">
+                    <div class="glasses-card h-full bg-white rounded-lg shadow-xl overflow-hidden">
+                        <div class="glasses-front h-full flex flex-col">
+                            <div class="flex-grow flex items-center justify-center p-4">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNb3xbvlJFHVs-4b0jJjb-Z70DwakOFXfDJA&s" />
+                            </div>
+                            <div class="p-4 bg-gray-50">
+                                <h3 class="font-bold text-xl">Golden Aviator</h3>
+                                <p class="text-gray-600">Timeless aviator style</p>
+                            </div>
+                        </div>
+                        <div class="glasses-back">
+                            <h3 class="font-bold text-xl mb-2">Golden Aviator</h3>
+                            <p class="text-sm mb-4">Gold metal frames with gradient UV protection</p>
+                            <span class="font-bold text-lg">$179</span>
+                            <button class="mt-4 px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Women's Glasses Section -->
+        <section>
+            <h2 class="text-3xl font-semibold mb-8 section-title">Women's Eyewear</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Glasses 1 -->
+                <div class="glasses-container h-96">
+                    <div class="glasses-card h-full bg-white rounded-lg shadow-xl overflow-hidden">
+                        <div class="glasses-front h-full flex flex-col">
+                            <div class="flex-grow flex items-center justify-center p-4">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY0MKvrsGSZ4r3Om8jSAVISyXDW-j4cF-GwQ&s" />
+                            </div>
+                            <div class="p-4 bg-gray-50">
+                                <h3 class="font-bold text-xl">Bella Cat-Eye</h3>
+                                <p class="text-gray-600">Fashion-forward design</p>
+                            </div>
+                        </div>
+                        <div class="glasses-back">
+                            <h3 class="font-bold text-xl mb-2">Bella Cat-Eye</h3>
+                            <p class="text-sm mb-4">Tortoiseshell acetate with rose gold accents</p>
+                            <span class="font-bold text-lg">$169</span>
+                            <button class="mt-4 px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition">View Details</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Glasses 2 -->
+                <div class="glasses-container h-96">
+                    <div class="glasses-card h-full bg-white rounded-lg shadow-xl overflow-hidden">
+                        <div class="glasses-front h-full flex flex-col">
+                            <div class="flex-grow flex items-center justify-center p-4">
+                                <img src="https://res.ygstatic.com/lifestyle/e15824/1.1800.1706668394-471.jpg" />
+                            </div>
+                            <div class="p-4 bg-gray-50">
+                                <h3 class="font-bold text-xl">Pink Transparency</h3>
+                                <p class="text-gray-600">Trendsetting oversized frames</p>
+                            </div>
+                        </div>
+                        <div class="glasses-back">
+                            <h3 class="font-bold text-xl mb-2">Pink Transparency</h3>
+                            <p class="text-sm mb-4">Modern transparent pink frames with UV protection</p>
+                            <span class="font-bold text-lg">$159</span>
+                            <button class="mt-4 px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition">View Details</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Glasses 3 -->
+                <div class="glasses-container h-96">
+                    <div class="glasses-card h-full bg-white rounded-lg shadow-xl overflow-hidden">
+                        <div class="glasses-front h-full flex flex-col">
+                            <div class="flex-grow flex items-center justify-center p-4">
+                                <img src="https://www.kraywoods.com/cdn/shop/articles/unnamed_331fef29-cae4-45eb-82de-04082c5367fd.jpg?v=1736879053" />
+                            </div>
+                            <div class="p-4 bg-gray-50">
+                                <h3 class="font-bold text-xl">Hexagon Chrome</h3>
+                                <p class="text-gray-600">Modern geometric design</p>
+                            </div>
+                        </div>
+                        <div class="glasses-back">
+                            <h3 class="font-bold text-xl mb-2">Hexagon Chrome</h3>
+                            <p class="text-sm mb-4">Silver metal frames with blue-tinted lenses</p>
+                            <span class="font-bold text-lg">$189</span>
+                            <button class="mt-4 px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Enhance 3D effect on scroll
+        document.addEventListener('DOMContentLoaded', () => {
+            const glassesContainers = document.querySelectorAll('.glasses-container');
+            
+            // Add subtle tilt effect on mouse move
+            document.addEventListener('mousemove', (e) => {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                
+                glassesContainers.forEach(container => {
+                    container.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+                });
+            });
+            
+            // Reset position when mouse leaves
+            document.addEventListener('mouseleave', () => {
+                glassesContainers.forEach(container => {
+                    container.style.transform = `rotateY(0deg) rotateX(0deg)`;
+                });
+            });
+            
+            // Add scroll animation
+            window.addEventListener('scroll', () => {
+                glassesContainers.forEach(container => {
+                    const containerPosition = container.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight / 1.5;
+                    
+                    if (containerPosition < screenPosition) {
+                        container.style.opacity = '1';
+                        container.style.transform = 'translateY(0)';
+                    } else {
+                        container.style.opacity = '0';
+                        container.style.transform = 'translateY(50px)';
+                    }
+                });
+            });
+            
+            // Trigger initial animation
+            setTimeout(() => {
+                window.dispatchEvent(new Event('scroll'));
+            }, 100);
+        });
+    </script>
+</body>
+</html>

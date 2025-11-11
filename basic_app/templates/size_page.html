@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Size Selection Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .size-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .size-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .size-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .measurement-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .size-input {
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            border: 1px solid #d1d5db;
+        }
+        
+        .size-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        
+        /* Custom checkbox styling */
+        .size-checkbox {
+            position: relative;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .size-checkbox input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        
+        .checkbox-custom {
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid #d1d5db;
+            border-radius: 0.25rem;
+            margin-right: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .size-checkbox input:checked ~ .checkbox-custom {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+        }
+        
+        .checkbox-custom:after {
+            content: "";
+            display: none;
+            width: 4px;
+            height: 8px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            margin-bottom: 2px;
+        }
+        
+        .size-checkbox input:checked ~ .checkbox-custom:after {
+            display: block;
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="flex justify-center items-center h-screen">
+        <div class="text-center">
+            <h1 class="text-2xl font-bold mb-4">Shirt Size Selector</h1>
+            <button id="sizeButton" class="px-3 py-1 border border-gray-300 rounded-full hover:bg-gray-100 mb-2">Large</button>
+            <p class="text-gray-600">Click above to select detailed measurements</p>
+            
+            <div id="selectedSizes" class="mt-4 hidden">
+                <h2 class="text-lg font-semibold mb-2">Selected Measurements</h2>
+                <div id="selectedList" class="text-left"></div>
+                <button id="confirmButton" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Confirm Selection</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Size Selection Modal -->
+    <div id="sizeModal" class="size-modal">
+        <div class="size-content">
+            <h2 class="text-xl font-bold mb-4">Select Detailed Measurements</h2>
+            
+            <div class="measurement-group">
+                <h3 class="font-semibold mb-2">Main Size</h3>
+                <div class="size-grid">
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Main Size" value="XS">
+                        <span class="checkbox-custom"></span>
+                        <span>XS</span>
+                    </label>
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Main Size" value="S">
+                        <span class="checkbox-custom"></span>
+                        <span>S</span>
+                    </label>
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Main Size" value="M">
+                        <span class="checkbox-custom"></span>
+                        <span>M</span>
+                    </label>
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Main Size" value="L">
+                        <span class="checkbox-custom"></span>
+                        <span>L</span>
+                    </label>
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Main Size" value="XL">
+                        <span class="checkbox-custom"></span>
+                        <span>XL</span>
+                    </label>
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Main Size" value="XXL">
+                        <span class="checkbox-custom"></span>
+                        <span>XXL</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="measurement-group">
+                <h3 class="font-semibold mb-2">Chest (inches)</h3>
+                <div class="size-grid">
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Chest" value="34">
+                        <span class="checkbox-custom"></span>
+                        <span>34"</span>
+                    </label>
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Chest" value="36">
+                        <span class="checkbox-custom"></span>
+                        <span>36"</span>
+                    </label>
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Chest" value="38">
+                        <span class="checkbox-custom"></span>
+                        <span>38"</span>
+                    </label>
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Chest" value="40">
+                        <span class="checkbox-custom"></span>
+                        <span>40"</span>
+                    </label>
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Chest" value="42">
+                        <span class="checkbox-custom"></span>
+                        <span>42"</span>
+                    </label>
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Chest" value="44">
+                        <span class="checkbox-custom"></span>
+                        <span>44"</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="measurement-group">
+                <h3 class="font-semibold mb-2">Shoulder (inches)</h3>
+                <div class="size-grid">
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Shoulder" value="16">
+                        <span class="checkbox-custom"></span>
+                        <span>16"</span>
+                    </label>
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Shoulder" value="17">
+                        <span class="checkbox-custom"></span>
+                        <span>17"</span>
+                    </label>
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Shoulder" value="18">
+                        <span class="checkbox-custom"></span>
+                        <span>18"</span>
+                    </label>
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Shoulder" value="19">
+                        <span class="checkbox-custom"></span>
+                        <span>19"</span>
+                    </label>
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Shoulder" value="20">
+                        <span class="checkbox-custom"></span>
+                        <span>20"</span>
+                    </label>
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Shoulder" value="21">
+                        <span class="checkbox-custom"></span>
+                        <span>21"</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="measurement-group">
+                <h3 class="font-semibold mb-2">Sleeve Length (inches)</h3>
+                <div class="size-grid">
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Sleeve Length" value="24">
+                        <span class="checkbox-custom"></span>
+                        <span>24"</span>
+                    </label>
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Sleeve Length" value="25">
+                        <span class="checkbox-custom"></span>
+                        <span>25"</span>
+                    </label>
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Sleeve Length" value="26">
+                        <span class="checkbox-custom"></span>
+                        <span>26"</span>
+                    </label>
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Sleeve Length" value="27">
+                        <span class="checkbox-custom"></span>
+                        <span>27"</span>
+                    </label>
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Sleeve Length" value="28">
+                        <span class="checkbox-custom"></span>
+                        <span>28"</span>
+                    </label>
+                    <label class="size-checkbox">
+                        <input type="checkbox" data-category="Sleeve Length" value="29">
+                        <span class="checkbox-custom"></span>
+                        <span>29"</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="measurement-group">
+                <h3 class="font-semibold mb-2">Custom Measurements</h3>
+                <div>
+                    <label class="block mb-2">Waist (inches)</label>
+                    <input type="text" id="waistInput" class="size-input" placeholder="Enter waist measurement">
+                    
+                    <label class="block mt-2 mb-2">Length (inches)</label>
+                    <input type="text" id="lengthInput" class="size-input" placeholder="Enter length measurement">
+                </div>
+            </div>
+            
+            <div class="flex justify-between mt-6">
+                <button id="cancelButton" class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100">Cancel</button>
+                <button id="selectButton" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Select Measurements</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sizeButton = document.getElementById('sizeButton');
+            const sizeModal = document.getElementById('sizeModal');
+            const cancelButton = document.getElementById('cancelButton');
+            const selectButton = document.getElementById('selectButton');
+            const selectedSizes = document.getElementById('selectedSizes');
+            const selectedList = document.getElementById('selectedList');
+            const confirmButton = document.getElementById('confirmButton');
+            
+            let selectedMeasurements = [];
+            
+            // Open modal when button is clicked
+            sizeButton.addEventListener('click', function() {
+                sizeModal.style.display = 'flex';
+            });
+            
+            // Close modal when cancel is clicked
+            cancelButton.addEventListener('click', function() {
+                sizeModal.style.display = 'none';
+            });
+            
+            // Select measurements
+            selectButton.addEventListener('click', function() {
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+                selectedMeasurements = [];
+                
+                // Get selected checkboxes
+                checkboxes.forEach(checkbox => {
+                    selectedMeasurements.push({
+                        category: checkbox.dataset.category,
+                        value: checkbox.value
+                    });
+                });
+                
+                // Get custom measurements
+                const waistValue = document.getElementById('waistInput').value;
+                const lengthValue = document.getElementById('lengthInput').value;
+                
+                if (waistValue) {
+                    selectedMeasurements.push({
+                        category: 'Waist',
+                        value: waistValue
+                    });
+                }
+                
+                if (lengthValue) {
+                    selectedMeasurements.push({
+                        category: 'Length',
+                        value: lengthValue
+                    });
+                }
+                
+                // Update UI with selected measurements
+                if (selectedMeasurements.length > 0) {
+                    selectedList.innerHTML = '';
+                    
+                    selectedMeasurements.forEach(measurement => {
+                        const item = document.createElement('div');
+                        item.className = 'py-1 border-b border-gray-100';
+                        item.textContent = `${measurement.category}: ${measurement.value}`;
+                        selectedList.appendChild(item);
+                    });
+                    
+                    selectedSizes.classList.remove('hidden');
+                    
+                    // Update main button text with any selected main size
+                    const mainSize = selectedMeasurements.find(m => m.category === 'Main Size');
+                    if (mainSize) {
+                        sizeButton.textContent = mainSize.value;
+                    }
+                } else {
+                    selectedSizes.classList.add('hidden');
+                }
+                
+                // Close modal
+                sizeModal.style.display = 'none';
+            });
+            
+            // Confirm selection
+            confirmButton.addEventListener('click', function() {
+                alert('Measurements saved successfully!');
+                console.log('Saved measurements:', selectedMeasurements);
+                // Here you would typically send the data to a server
+                // For demo purposes, we're just logging to console
+            });
+            
+            // Close modal when clicking outside content
+            sizeModal.addEventListener('click', function(e) {
+                if (e.target === sizeModal) {
+                    sizeModal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

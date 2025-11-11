@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Now - Secure Payments</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom CSS for 3D animations */
+        .card-3d {
+            transform-style: preserve-3d;
+            transition: all 0.5s ease;
+        }
+
+        .card-3d:hover {
+            transform: rotateY(15deg) rotateX(10deg);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .payment-card {
+            transform-style: preserve-3d;
+            transition: transform 0.8s ease;
+        }
+
+        .payment-card:hover {
+            transform: rotateY(180deg);
+        }
+
+        .payment-card-front,
+        .payment-card-back {
+            backface-visibility: hidden;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .payment-card-back {
+            transform: rotateY(180deg);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .wave-shape {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+        }
+
+        .wave-shape svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 150px;
+        }
+
+        .wave-shape .shape-fill {
+            fill: #FFFFFF;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Hero Section -->
+    <section class="relative gradient-bg text-white py-20 overflow-hidden">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center">
+            <div class="w-full md:w-1/2 flex flex-col items-start mb-16 md:mb-0">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">Shop With Confidence</h1>
+                <p class="text-xl mb-8 text-white opacity-90">Secure checkout with multiple payment options and buyer
+                    protection guarantee.</p>
+                <a href="{% url 'all_products' %}"
+                    class="bg-white text-purple-800 font-bold rounded-lg py-3 px-8 shadow-lg hover:bg-gray-100 transition duration-300 flex items-center">
+                    <span>Start Shopping</span>
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+
+            </div>
+            <div class="w-full md:w-1/2 relative">
+                <div class="floating">
+                    <div class="card-3d p-1 bg-white rounded-2xl shadow-2xl inline-block">
+                        <img
+                            src="https://img.freepik.com/free-vector/realistic-credit-card-design_23-2149124864.jpg?semt=ais_hybrid&w=740" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="wave-shape -mb-1">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"
+                preserveAspectRatio="none">
+                <path
+                    d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
+                    opacity=".25" class="shape-fill"></path>
+                <path
+                    d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z"
+                    opacity=".5" class="shape-fill"></path>
+                <path
+                    d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"
+                    class="shape-fill"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Payment Methods Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-16">Accepted Payment Methods</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Credit Card -->
+                <div class="relative h-64">
+                    <div class="payment-card w-full h-full cursor-pointer">
+                        <div
+                            class="payment-card-front bg-gradient-to-r from-blue-500 to-blue-700 rounded-xl p-6 flex flex-col justify-between h-full shadow-lg">
+                            <div class="flex justify-between items-center">
+                                <span class="text-white font-semibold text-sm">CREDIT CARD</span>
+                                <img src="https://placehold.co/80x30/white/transparent" alt="Visa Mastercard Amex logos"
+                                    class="h-6 opacity-90" />
+                            </div>
+                            <div class="text-white mt-8">
+                                <div class="font-mono text-xl mb-2">•••• •••• •••• 4567</div>
+                                <div class="text-sm opacity-80">Expires 12/25</div>
+                            </div>
+                        </div>
+                        <div
+                            class="payment-card-back bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl p-6 h-full shadow-lg">
+                            <div class="h-full flex flex-col items-center justify-center">
+                                <div class="text-white font-semibold mb-4">Security Code</div>
+                                <div class="bg-gray-200 w-4/5 h-10 rounded flex items-center justify-center mb-6">
+                                    <span class="text-gray-700 font-mono">•••</span>
+                                </div>
+                                <img
+                                    src=https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYP3h_JyTcpp1_Kch8xm0IT7I6ixPo8PLj8Q&s" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Digital Wallet -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-3d">
+                    <div class="p-6 flex items-center">
+                        <div class="bg-purple-100 rounded-full p-4 mr-4">
+                            <i class="fas fa-wallet text-purple-600 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800">Digital Wallets</h3>
+                            <p class="text-gray-600">Apple Pay, Google Pay, PayPal</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-6 border-t border-gray-100">
+                        <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYP3h_JyTcpp1_Kch8xm0IT7I6ixPo8PLj8Q&s" />
+                    </div>
+                </div>
+
+                <!-- Bank Transfer -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-3d">
+                    <div class="p-6 flex items-center">
+                        <div class="bg-indigo-100 rounded-full p-4 mr-4">
+                            <i class="fas fa-university text-indigo-600 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800">Bank Transfer</h3>
+                            <p class="text-gray-600">Direct bank payments</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-6 border-t border-gray-100">
+                        <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT33fV5AWv8AeaD7FPFqjC1W-76xmSGrne_IQ&s" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Security Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row">
+                <div class="w-full md:w-1/2 mb-12 md:mb-0">
+                    <img src="https://www.enzuzo.com/hubfs/iPhone%2014%20Plus%20-%203.png" />
+                </div>
+                <div class="w-full md:w-1/2 md:pl-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6">Your Security Is Our Priority</h2>
+                    <div class="space-y-8">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <div class="bg-green-100 rounded-full p-3">
+                                    <i class="fas fa-shield-alt text-green-600"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-gray-800">SSL Encryption</h3>
+                                <p class="mt-1 text-gray-600">All transactions are encrypted with 256-bit SSL security
+                                    to protect your personal information.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <div class="bg-blue-100 rounded-full p-3">
+                                    <i class="fas fa-lock text-blue-600"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-gray-800">PCI DSS Compliant</h3>
+                                <p class="mt-1 text-gray-600">We meet the highest security standards set by the Payment
+                                    Card Industry.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <div class="bg-purple-100 rounded-full p-3">
+                                    <i class="fas fa-money-bill-wave text-purple-600"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-gray-800">Money Back Guarantee</h3>
+                                <p class="mt-1 text-gray-600">30-day return policy on all purchases in case you're not
+                                    completely satisfied.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-16">How It Works</h2>
+
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Step 1 -->
+                <div class="flex-1 bg-gray-50 rounded-2xl p-8 card-3d">
+                    <div class="bg-purple-100 rounded-full w-14 h-14 flex items-center justify-center mb-6 mx-auto">
+                        <span class="text-purple-600 font-bold text-xl">1</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-center text-gray-800 mb-4">Add Items to Cart</h3>
+                    <p class="text-gray-600 text-center">Browse our products and add items you want to purchase to your
+                        shopping cart.</p>
+                    <div class="mt-8 flex justify-center">
+                        <img
+                            src="https://static.vecteezy.com/system/resources/thumbnails/025/055/128/original/adding-items-to-a-shopping-cart-icon-with-count-numbers-on-the-device-screen-add-items-online-on-shopping-web-page-online-shopping-concept-video.jpg" />
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="flex-1 bg-gray-50 rounded-2xl p-8 card-3d">
+                    <div class="bg-blue-100 rounded-full w-14 h-14 flex items-center justify-center mb-6 mx-auto">
+                        <span class="text-blue-600 font-bold text-xl">2</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-center text-gray-800 mb-4">Proceed to Checkout</h3>
+                    <p class="text-gray-600 text-center">Review your order and proceed to our secure checkout page with
+                        multiple payment options.</p>
+                    <div class="mt-8 flex justify-center">
+                        <img src="https://img.freepik.com/premium-vector/proceed-checkout-button_1088810-497.jpg" />
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="flex-1 bg-gray-50 rounded-2xl p-8 card-3d">
+                    <div class="bg-green-100 rounded-full w-14 h-14 flex items-center justify-center mb-6 mx-auto">
+                        <span class="text-green-600 font-bold text-xl">3</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-center text-gray-800 mb-4">Receive Your Order</h3>
+                    <p class="text-gray-600 text-center">Get instant confirmation and tracking information for your
+                        shipment.</p>
+                    <div class="mt-8 flex justify-center">
+                        <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsIidw3T1FHpozhut8CTC32PyYpcsERqqxtQ&s" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-16">
+                <a href="{% url 'all_products' %}"
+                    class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition duration-300 inline-block">
+                    Start Shopping Now
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-16">Payment FAQs</h2>
+
+            <div class="max-w-3xl mx-auto">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+                    <div class="p-6 cursor-pointer flex justify-between items-center border-b border-gray-100">
+                        <h3 class="text-lg font-semibold text-gray-800">What payment methods do you accept?</h3>
+                        <i class="fas fa-plus text-gray-400"></i>
+                    </div>
+                    <div class="p-6 hidden">
+                        <p class="text-gray-600">We accept all major credit cards (Visa, Mastercard, American Express),
+                            PayPal, Apple Pay, Google Pay, and bank transfers.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+                    <div class="p-6 cursor-pointer flex justify-between items-center border-b border-gray-100">
+                        <h3 class="text-lg font-semibold text-gray-800">Is my payment information secure?</h3>
+                        <i class="fas fa-plus text-gray-400"></i>
+                    </div>
+                    <div class="p-6 hidden">
+                        <p class="text-gray-600">Absolutely. We use industry-standard 256-bit SSL encryption and comply
+                            with PCI DSS requirements to ensure your payment information is protected.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+                    <div class="p-6 cursor-pointer flex justify-between items-center border-b border-gray-100">
+                        <h3 class="text-lg font-semibold text-gray-800">Can I get a refund?</h3>
+                        <i class="fas fa-plus text-gray-400"></i>
+                    </div>
+                    <div class="p-6 hidden">
+                        <p class="text-gray-600">Yes, we offer a 30-day money-back guarantee on all purchases. If you're
+                            not satisfied with your purchase, contact our customer support for a refund.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+                    <div class="p-6 cursor-pointer flex justify-between items-center border-b border-gray-100">
+                        <h3 class="text-lg font-semibold text-gray-800">Do you offer installment payments?</h3>
+                        <i class="fas fa-plus text-gray-400"></i>
+                    </div>
+                    <div class="p-6 hidden">
+                        <p class="text-gray-600">Yes, we offer installment options through PayPal Credit and certain
+                            credit card providers. Select "Pay Later" at checkout for available options.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+                    <div class="p-6 cursor-pointer flex justify-between items-center border-b border-gray-100">
+                        <h3 class="text-lg font-semibold text-gray-800">Will I receive a receipt?</h3>
+                        <i class="fas fa-plus text-gray-400"></i>
+                    </div>
+                    <div class="p-6 hidden">
+                        <p class="text-gray-600">Yes, you'll receive an email receipt immediately after your purchase,
+                            and you can access all your receipts in your account dashboard.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-8 md:mb-0">
+                    <h3 class="text-xl font-bold mb-4">ShopPay</h3>
+                    <p class="text-gray-300 max-w-md">Secure eCommerce payments with the highest level of security and
+                        customer protection.</p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                    <div>
+                        <h4 class="font-semibold mb-4">Shop</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-300 hover:text-white">All Products</a></li>
+                            <li><a href="#" class="text-gray-300 hover:text-white">New Arrivals</a></li>
+                            <li><a href="#" class="text-gray-300 hover:text-white">Featured Items</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold mb-4">Help</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-300 hover:text-white">FAQs</a></li>
+                            <li><a href="#" class="text-gray-300 hover:text-white">Shipping</a></li>
+                            <li><a href="#" class="text-gray-300 hover:text-white">Returns</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold mb-4">Connect</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-gray-300 hover:text-white">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="text-gray-300 hover:text-white">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="text-gray-300 hover:text-white">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-300 text-sm mb-4 md:mb-0">© 2023 ShopPay. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <img src="https://placehold.co/80x30/white/transparent" alt="Payment method icons"
+                        class="h-6 opacity-80" />
+                    <img src="https://placehold.co/80x30/white/transparent" alt="SSL security badge"
+                        class="h-6 opacity-80" />
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle FAQ answers
+        document.querySelectorAll('.cursor-pointer').forEach(item => {
+            item.addEventListener('click', () => {
+                const answer = item.nextElementSibling;
+                const icon = item.querySelector('i');
+
+                answer.classList.toggle('hidden');
+                if (answer.classList.contains('hidden')) {
+                    icon.classList.remove('fa-minus');
+                    icon.classList.add('fa-plus');
+                } else {
+                    icon.classList.remove('fa-plus');
+                    icon.classList.add('fa-minus');
+                }
+            });
+        });
+
+        // Simple animation on scroll
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.card-3d');
+
+            function animateOnScroll() {
+                animatedElements.forEach(element => {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+
+                    if (elementPosition < windowHeight - 100) {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }
+                });
+            }
+
+            // Initialize
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.6s ease-out';
+            });
+
+            animateOnScroll();
+            window.addEventListener('scroll', animateOnScroll);
+        });
+    </script>
+</body>
+
+</html>

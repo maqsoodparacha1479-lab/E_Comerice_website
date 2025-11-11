@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Headphones Collection</title>
+    <style>
+        :root {
+            --primary-color: #3a0ca3;
+            --secondary-color: #f72585;
+            --dark-color: #1a1a2e;
+            --light-color: #f8f9fa;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--secondary-color);
+            border-radius: 2px;
+        }
+
+        .gender-section {
+            margin-bottom: 3rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            position: relative;
+            transform-style: preserve-3d;
+            transform: perspective(1000px) rotateY(0deg);
+            will-change: transform;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: perspective(1000px) rotateY(10deg) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+            font-weight: 600;
+        }
+
+        .product-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--secondary-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+        }
+
+        .cta-button:hover {
+            background: #2c0a7e;
+            transform: translateY(-2px);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-toggle {
+            background: var(--dark-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .section-toggle:hover {
+            background: var(--secondary-color);
+        }
+
+        /* 3D Animation Effects */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotateY(0deg);
+            }
+            50% {
+                transform: translateY(-10px) rotateY(5deg);
+            }
+        }
+
+        .featured-product {
+            animation: float 6s ease-in-out infinite;
+            transform-style: preserve-3d;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Premium Headphones Collection</h1>
+        <p style="text-align: center; margin-bottom: 3rem;">Experience superior sound quality with our latest headphones designed for both men and women</p>
+        
+        <div class="gender-section">
+            <h2>Headphones for Men</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/09a1cfcf-1975-4efb-aec1-2306d0469ce4.png" alt="Black matte professional headphones with chrome accents, side view showing plush ear cushions and metal headband">
+                    </div>
+                    <div class="product-badge">New</div>
+                    <div class="product-info">
+                        <h3 class="product-title">ProX Elite</h3>
+                        <p class="product-description">Professional-grade headphones with noise cancellation and deep bass response</p>
+                        <span class="product-price">$249.99</span>
+                        <button class="cta-button">View Details</button>
+                    </div>
+                </div>
+                
+                <div class="product-card featured-product">
+                    <div class="product-image">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/65d5459d-9116-4f15-8427-79f865bbf671.png" alt="Wireless headphones in navy blue with polished silver details, angled view showcasing microphone and touch controls">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Naval Blue Wireless</h3>
+                        <p class="product-description">True wireless earbuds with 12hr battery life and crystal clear calls</p>
+                        <span class="product-price">$179.99</span>
+                        <button class="cta-button">View Details</button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0773b3bb-4520-4e91-ba2c-59d5e4035b02.png" alt="Sports headphones with neon green accents, wrapping around the neck with flexible earbuds, perfect for active lifestyle">
+                    </div>
+                    <div class="product-badge">Sale</div>
+                    <div class="product-info">
+                        <h3 class="product-title">SportFit 360</h3>
+                        <p class="product-description">Sweat-resistant workout headphones with secure fit and powerful bass</p>
+                        <span class="product-price">$129.99 <span style="text-decoration: line-through; color: #999; font-size: 0.9rem;">$159.99</span></span>
+                        <button class="cta-button">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="gender-section">
+            <h2>Headphones for Women</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b2fdbfb0-d757-4716-a076-3cd1716ea4b9.png" alt="Rose gold wireless headphones with white leather ear pads, showing elegant design and multifunction controls">
+                    </div>
+                    <div class="product-badge">Best Seller</div>
+                    <div class="product-info">
+                        <h3 class="product-title">Aurora Rose</h3>
+                        <p class="product-description">Stylish wireless headphones with 3D sound and touch controls</p>
+                        <span class="product-price">$199.99</span>
+                        <button class="cta-button">View Details</button>
+                    </div>
+                </div>
+                
+                <div class="product-card featured-product">
+                    <div class="product-image">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/2270f188-476d-4dea-a8cd-69028269e71b.png" alt="Compact pastel purple earbuds with charging case, top view showing sleek modern design and LED indicators">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Lilac Buds Pro</h3>
+                        <p class="product-description">Compact true wireless earbuds with active noise canceling</p>
+                        <span class="product-price">$159.99</span>
+                        <button class="cta-button">View Details</button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/71981e96-e1a2-4d3f-a8bf-e84310de4b8e.png" alt="Fashionable mint green headphones with gold accents, frontal view showing floral pattern on headband">
+                    </div>
+                    <div class="product-badge">Limited</div>
+                    <div class="product-info">
+                        <h3 class="product-title">Floral Harmony</h3>
+                        <p class="product-description">Fashion-forward headphones with customizable equalizer settings</p>
+                        <span class="product-price">$219.99</span>
+                        <button class="cta-button">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced 3D animation on hover for all product cards
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const angleY = (x - centerX) / 20;
+                const angleX = (centerY - y) / 20;
+                
+                card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                if (card.classList.contains('featured-product')) {
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+                    return;
+                }
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+            });
+        });
+
+        // Parallax effect for featured products
+        window.addEventListener('scroll', () => {
+            document.querySelectorAll('.featured-product').forEach(product => {
+                const scrollPosition = window.scrollY;
+                product.style.transform = `perspective(1000px) rotateY(${scrollPosition / 50}deg)`;
+            });
+        });
+    </script>
+</body>
+</html>
+
